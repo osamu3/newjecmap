@@ -4,28 +4,17 @@
 	<meta charset="utf-8">
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
-
 	<link rel="stylesheet" href="/javascripts/js/jquery-ui-1.12.1.custom/jquery-ui.css" />
 
-
-	<script src="/javascripts//js/jquery-3.4.1.min.js"></script>
-	<script src="/javascripts//js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-	<script src="/javascripts//test.js"></script>
-
+	<script src="/javascripts/js/jquery-3.4.1.min.js"></script>
+	<script src="/javascripts/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="/javascripts/test.js"></script>
 
 </head>
   <body>
-    <h1><%= title %></h1>
-	<article>
-		<div id="mapArea" class="ui-widget-content">
-  			<h3 class="ui-widget-header">リサイズ1</h3>
-		</div>
-		<div id="svArea" class="ui-widget-content">
-  			<h3 class="ui-widget-header">リサイズ2</h3>
-		</div>
-	</article>
-	<aside>
-		<section>
+	<aside><!-- サイドメニュー-->
+		<div >
+			<section>
 			<h1>カテゴリー</h1>
 			<ul>
 				<li><a href="#">カテゴリー1</a></li>
@@ -35,6 +24,15 @@
 				<li><a href="#">カテゴリー5</a></li>
 			</ul>
 		</section>
+		</div>
 	</aside>
+	<article><!--地図エリア-->
+		<div id="mapArea" class="ui-widget-content">
+  			<h3 class="ui-widget-header">地図表示エリア</h3>
+		</div>
+		<div id="svArea" class="ui-widget-content">
+  			<h3 class="ui-widget-header">グーグルビュー</h3>
+		</div>
+	</article>
   </body>
 </html>

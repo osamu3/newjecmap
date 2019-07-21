@@ -1,8 +1,67 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* #resizable { width: 150px; height: 150px; padding: 0.5em; } */
+/* #resizable h3 { text-align: center; margin: 0; } */
+:root {/*変数宣言 */
+  --windowHight: calc(100vh - 1.0em);  /*微妙に調整要 */
+	--mapWidth:75vw;
+	--sideMenuWidth:25vw;
 }
 
-a {
-  color: #00B7FF;
+html{
+    width:auto;
+	/*	height: 100%; */
+}
+
+body{
+	display: flex;
+	flex-direction: row;
+	/*height: calc(100vh- 5.0em);*/
+	height: var(--windowHight);
+	/*height:calc(100% - 5.0em);*/  /*微妙に調整要 */
+	/*height:300px;*/  /*微妙に調整要 */
+}
+
+article, aside, section{
+	display:flex;  /*←新要素はデフォルトではinline要素なのでこの指定が必要。*/
+	flex-direction: column;
+}
+
+aside{/*サイドメニュー*/
+	border:3px solid #00e;
+	margin:0px 0px 0px;
+	padding:0px;
+	/* width:180px; */
+	width: var(--sideMenuWidth);
+	height: var(--windowHight);	
+}
+
+article{/*メイン*/
+	border:3px solid #0aa;
+	margin:0px 0px 0px;
+	padding:0px;
+	/* width:620px; */
+	width: var(--mapWidth);
+	height: var(--windowHight);
+	padding:0px;
+}
+
+
+/*サイドメニュー内の要素*/
+section{/*セクション*/
+	border:3px solid #0d0;
+	margin:0px 0px 2px;
+	padding:2px;
+}
+
+#mapArea{
+	display:block;
+	border:3px solid #f00;
+	width:auto;
+	height:calc((100%/4)*3);/*初期設定はボディー高さの３／４*/
+}
+
+#svArea{
+	display:block;
+	border:3px solid #f00;
+	width:auto;
+	height:calc(100%/4);/*初期設定はボディー高さの１／４*/
 }
