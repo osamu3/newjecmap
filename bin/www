@@ -1,35 +1,40 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
 var debug = require('debug')('newjecmap:server');
 var http = require('http');
 
-/**
- * Get port from environment and store in Express.
- */
 
+// var scktIo = require('../public/javascripts/myDefScktIo');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
-
+//cf:https://qiita.com/kanjishima/items/5342eca62e8d5de30ccb
+//ソケットIOを利用するには、①～②
+//①↓直接httpモジュールインスタンスをリッスンしてもダメ。
+//io.listen(http); 
+//②↓httpモジュールからcreateServerして......
 var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
 
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-console.log("WWW Listen Port:3000")
+//②´↓そいつをio.listen
+var io = require('socket.io')(server);
+
+console.log("WWW Listen Port:3000");
+
+io.on('connection', function(socket){
+	console.log("SOCKET IO CONNECTED!!!!!!!!");
+
+	socket.on('C2S:sendRequestEventFilesData', function(msg){
+		console.log('クライアントから着信！： ' + msg);
+		console.log('イベントデータを送ります： ');
+		socket.emit('S2C:sendAllEventData', 'AllEvntData');//どうも配列としてsocket送信する訳だが、送信時に文字列(JSON)に変換されるようだ。
+  });
+});
+
 /**
  * Normalize a port into a number, string, or false.
  */

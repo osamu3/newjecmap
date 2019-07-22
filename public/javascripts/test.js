@@ -1,21 +1,25 @@
-// 要素リサイズ　cf:http://js.studio-kingdom.com/jqueryui/interactions/resizable
+var socket = io.connect();
 
-$(function() {
-	$('#mapArea').resizable({
-		handles: "s", /*高さのみ変更可能（ハンドルは、底辺のみ）*/
-    	/* alsoResize: '#svArea', */
-		alsoResizeReverse: "#svArea",
-		resize: function(event, ui) {
-			console.log('resize called');
-			var size = ui.size;
-			console.log('イベント発生！！');
-			console.log(size.width);
-			console.log(size.height);
-		}
+var currentPoint = "";//緯度経度リスト中の現在ポイント
+var AllEventData = {};//オブジェクト配列：グローバル変数
+$(function () {
+	console.log('サーバーへメッセージを送ってみます。\n');
+	/////////////////////////////////////////////////
+	//サーバーにある全てのイベントファイルのデータ送信要求
+	/////////////////////////////////////////////////
+	socket.emit('C2S:sendRequestEventFilesData','データおくれ');
+
+	//==========socketIO(サーバーからメッセージが届いた時に発火）=========================
+	socket.on('S2C:sendAllEventData', function (data) {
+		console.log(data+':サーバーからメッセージがありました。\n');
+		//alert("サーバーからメッセージがありました。["+data+"]");
 	});
 });
 
 
+
+
+// 要素リサイズ　cf:http://js.studio-kingdom.com/jqueryui/interactions/resizable
 /*要素のリサイズ連動（片方は逆方向）*/
 /*CF:https://codeday.me/jp/qa/20181230/112551.html*/
 $.ui.plugin.add("resizable", "alsoResizeReverse", {

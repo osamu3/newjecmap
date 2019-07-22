@@ -1,10 +1,10 @@
 /* #resizable { width: 150px; height: 150px; padding: 0.5em; } */
 /* #resizable h3 { text-align: center; margin: 0; } */
 :root {/*変数宣言 */
-  --windowHight: calc(100vh - 1.0em);  /*微妙に調整要 */
+  --windowHight: calc(100vh - 1.0em);  /*微妙に調整 */
 	--mapWidth:75vw;
 	--sideMenuWidth:25vw;
-	--sectionHight:calc(100vh - 22px);
+	--sectionHight:calc(100vh - 22px); /*微妙に調整 */
 }
 
 html{
