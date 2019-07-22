@@ -4,20 +4,17 @@
   --windowHight: calc(100vh - 1.0em);  /*微妙に調整要 */
 	--mapWidth:75vw;
 	--sideMenuWidth:25vw;
+	--sectionHight:calc(100vh - 22px);
 }
 
 html{
     width:auto;
-	/*	height: 100%; */
 }
 
 body{
 	display: flex;
 	flex-direction: row;
-	/*height: calc(100vh- 5.0em);*/
 	height: var(--windowHight);
-	/*height:calc(100% - 5.0em);*/  /*微妙に調整要 */
-	/*height:300px;*/  /*微妙に調整要 */
 }
 
 article, aside, section{
@@ -29,7 +26,6 @@ aside{/*サイドメニュー*/
 	border:3px solid #00e;
 	margin:0px 0px 0px;
 	padding:0px;
-	/* width:180px; */
 	width: var(--sideMenuWidth);
 	height: var(--windowHight);	
 }
@@ -38,7 +34,6 @@ article{/*メイン*/
 	border:3px solid #0aa;
 	margin:0px 0px 0px;
 	padding:0px;
-	/* width:620px; */
 	width: var(--mapWidth);
 	height: var(--windowHight);
 	padding:0px;
@@ -47,9 +42,11 @@ article{/*メイン*/
 
 /*サイドメニュー内の要素*/
 section{/*セクション*/
+	display:block;
 	border:3px solid #0d0;
-	margin:0px 0px 2px;
-	padding:2px;
+	margin:0px 0px 0px;
+	padding:0px;
+	height:  var(--sectionHight);
 }
 
 #mapArea{
