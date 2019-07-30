@@ -49,14 +49,14 @@ section{/*セクション*/
 	height:  var(--sectionHight);
 }
 
-#mapArea{
+#mapCanvas{
 	display:block;
 	border:3px solid #f00;
 	width:auto;
 	height:calc((100%/4)*3);/*初期設定はボディー高さの３／４*/
 }
 
-#svArea{
+#strtVwCanvas{
 	display:block;
 	border:3px solid #f00;
 	width:auto;

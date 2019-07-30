@@ -10,8 +10,6 @@
 	<script src="/javascripts/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	<script src="/javascripts/js/socket.io.js"></script>
 
-	<script src="/javascripts/test.js"></script>
-
 </head>
   <body>
 	<aside><!-- サイドメニュー-->
@@ -29,12 +27,17 @@
 		</div>
 	</aside>
 	<article><!--地図エリア-->
-		<div id="mapArea" class="ui-widget-content">
+		<div id="mapCanvas" class="ui-widget-content">
   			<h3 class="ui-widget-header">地図表示エリア</h3>
 		</div>
-		<div id="svArea" class="ui-widget-content">
+		<div id="strtVwCanvas" class="ui-widget-content">
   			<h3 class="ui-widget-header">グーグルビュー</h3>
 		</div>
 	</article>
-  </body>
+
+	<!-- 以下のスクリプトは、</body直前に置いた方がいいみたい？-->
+	<script src="/javascripts/test.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAT1CHvQkiTKOdPbmJp2gOpqDIblMgzfI"></script>
+	<script src="/javascripts/initializeMap.js"></script>
+</body>
 </html>

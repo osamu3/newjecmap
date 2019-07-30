@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var app = require('../app');
-var scktIoDfn = require('../models/scktIoDfn');
+var scktIoDfn = require('../myModules/scktIoDfn');
 
 var debug = require('debug')('newjecmap:server');
 var http = require('http');
