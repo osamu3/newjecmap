@@ -1,11 +1,8 @@
 $(function() {
 	$('#mapCanvas').resizable({
-		handles: "s", /*高さのみ変更可能（ハンドルは、底辺のみ）*/
-    	/* alsoResize: '#strtVwCanvas', */
-		alsoResizeReverse: "#strtVwCanvas",
-		resize: function(event, ui) {
-			//var size = ui.size;
-			//console.log(size.height);
+		handles: "s", //高さのみ変更可能（ハンドルは、底辺のみ）
+		alsoResizeReverse: "#strtVwCanvas", //連動する要素の高さの変動を逆位相とする。順位相=alsoResize
+		resize: function(event, ui) {//リサイズ中に発火
 		}
 	});
 });
@@ -52,7 +49,17 @@ $.ui.plugin.add("resizable", "alsoResizeReverse", {
         });
     },
 
-    stop: function() {
-        $(this).removeData("resizable-alsoresize-reverse");
-    }
+    stop: function() {//要素のリサイズイベント終了時に発火
+		$(this).removeData("resizable-alsoresize-reverse");
+		$('#strtVwCanvas').hide();//ストリートビューを一旦非表示
+		var latlng = MyMap.getCenter();//マップの中心緯度経度を取得
+		var lat = latlng.lat();
+		var lng = latlng.lng();
+		Svp.setPosition(new google.maps.LatLng(lat-0.0001, lng));//ストリートビュー少し動かす
+
+		setTimeout(function () {
+			Svp.setPosition(new google.maps.LatLng(lat, lng));//ストリートビューを元に戻す
+			$('#strtVwCanvas').show();
+		}, 500); // 0.5秒後に再描画
+		}
 });
