@@ -1,23 +1,14 @@
-var socket = io.connect();
-
-var currentPoint = "";//緯度経度リスト中の現在ポイント
-var AllEventData = {};//オブジェクト配列：グローバル変数
-$(function () {
-	console.log('サーバーへメッセージを送ってみます。\n');
-	/////////////////////////////////////////////////
-	//サーバーにある全てのイベントファイルのデータ送信要求
-	/////////////////////////////////////////////////
-	socket.emit('C2S:sendRequestEventFilesData','データおくれ');
-
-	//==========socketIO(サーバーからメッセージが届いた時に発火）=========================
-	socket.on('S2C:sendAllEventData', function (data) {
-		console.log(data+':サーバーからメッセージがありました。\n');
-		//alert("サーバーからメッセージがありました。["+data+"]");
+$(function() {
+	$('#mapCanvas').resizable({
+		handles: "s", /*高さのみ変更可能（ハンドルは、底辺のみ）*/
+    	/* alsoResize: '#strtVwCanvas', */
+		alsoResizeReverse: "#strtVwCanvas",
+		resize: function(event, ui) {
+			//var size = ui.size;
+			//console.log(size.height);
+		}
 	});
 });
-
-
-
 
 // 要素リサイズ　cf:http://js.studio-kingdom.com/jqueryui/interactions/resizable
 /*要素のリサイズ連動（片方は逆方向）*/
