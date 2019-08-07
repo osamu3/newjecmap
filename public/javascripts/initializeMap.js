@@ -1,10 +1,11 @@
 $(function () {
 	MyMap = new google.maps.Map(document.getElementById('mapCanvas'), { // #mapAreaに地図を埋め込む
 		center: { // 地図の中心を指定
-			lat: 35.29749372923729, // 緯度
-			lng: 135.130990740549 // 経度
+			lat: InitLat, // 緯度
+			lng: InitLng // 経度
 		},
-		zoom: 15 // 地図のズームを指定
+		zoom: 15,// 地図のズームを指定
+		streetViewControl:  false //ペグマンを非表示
 	});
 
 	Svs = new google.maps.StreetViewService();
@@ -27,14 +28,21 @@ $(function () {
 			//	position: google.maps.ControlPosition.TOP_CENTER ,
 			//} ,
 			position: MyMap.getCenter()
-		});
-		//地図右クリックイベント定義
-		google.maps.event.addListener(MyMap, 'rightclick', mapClick2PanEventFn);
-});
+		}
+	);
+		//ペグマン初期表示
+	ArrowIcon.rotation = 0;//ストリートビューカメラが向いている方角を示す矢印
+	ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表す矢印マーカー
+		position:  new google.maps.LatLng( 	InitLat, InitLng ),
+		map: MyMap,
+		icon: ArrowIcon
+	});
+	
+	//地図右クリックイベント定義
+	google.maps.event.addListener(MyMap, 'rightclick', mapClick2PanEventFn);
 
-//地図を右クリック時に発火、クリック位置へ移動
-function mapClick2PanEventFn(e) {
-	let latLng = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
-	MyMap.panTo(latLng);
-	Svp.setPosition(latLng);//ストリートビューを元に戻す
-}
+	//svp.setPov({ heading: 0, pitch: 0, zoom: 0 });
+	//ストリートビューパノラマ画像のイベントセット
+	Svp.addListener('pov_changed', svpCameraRotaitionEventFn); //向きが変わった
+	Svp.addListener('position_changed', svpCameraMoveEventFn);//{//パノラマ画像の基本（LatLng）位置が変更された
+});

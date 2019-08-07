@@ -4,26 +4,133 @@
 	<meta charset="utf-8">
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
-	<link rel="stylesheet" href="/javascripts/js/jquery-ui-1.12.1.custom/jquery-ui.css" />
-
-	<script src="/javascripts/js/jquery-3.4.1.min.js"></script>
-	<script src="/javascripts/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-	<script src="/javascripts/js/socket.io.js"></script>
-
-</head>
+	<link rel="stylesheet" href="/stylesheets/jquery-ui.min.css" />
+	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  </head>
   <body>
 	<aside><!-- サイドメニュー-->
 		<div >
 			<section>
 			<h1>カテゴリー</h1>
-			<ul>
-				<li><a href="#">カテゴリー1</a></li>
-				<li><a href="#">カテゴリー2</a></li>
-				<li><a href="#">カテゴリー3</a></li>
-				<li><a href="#">カテゴリー4</a></li>
-				<li><a href="#">カテゴリー5</a></li>
-			</ul>
-		</section>
+			<div>
+				<tr>
+					<td id="currentLatTag">35.29749372923729</td>
+					<input type="button" value="緯度コピー" onclick="tagTextToClipboard('currentLat');"/>
+				</tr>
+				<tr>
+					<td id="currentLng">135.130990740549</td>
+					<input type="button" value="緯度コピー" onclick="tagTextToClipboard('currentLng');"/>
+				</tr>
+			</div>
+			<div class="row">
+					<!-- Bootstrap4による画面サイズ設定　これ↓("col-sm-10")を定義しておかないと、「Ｒ９」の「Ｒ」が表示されない -->
+					<div class="col-sm-10">
+					<!-- Bootstrap4によるナビゲーション（カプセル）メニュー定義 cf:http://bootstrap3.cyberlab.info/components/navs.html -->
+					<ul class="nav nav-pills">
+						<li class="active dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Ｒ９
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#menu9-1" data-toggle="tab">京丹波</a></li>
+								<li><a href="#menu9-2" data-toggle="tab">三和</a>
+								</li>
+								<li><a href="#menu9-3" data-toggle="tab">福知山</a></li>
+								<li><a href="#menu9-4" data-toggle="tab">夜久野</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">&emsp;Ｒ27
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#menu27-1" data-toggle="tab">舞鶴</a></li>
+								<li><a href="#menu27-2" data-toggle="tab">綾部</a></li>
+								<li><a href="#menu27-3" data-toggle="tab">京丹波</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">&emsp;事象
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#menuEvnt-0" data-toggle="tab">全て表示</a></li>
+								<li><a href="#menuEvnt-1" data-toggle="tab">落下物</a></li>
+								<li><a href="#menuEvnt-2" data-toggle="tab">事故</a></li>
+								<li><a href="#menuEvnt-3" data-toggle="tab">災害</a></li>
+								<li><a href="#menuEvnt-4" data-toggle="tab">動物死骸</a></li>
+								<li><a href="#menuEvnt-5" data-toggle="tab">苦情</a></li>
+								<li><a href="#menuEvnt-6" data-toggle="tab">通報</a></li>
+								<li><a href="#menuEvnt-7" data-toggle="tab">その他</a></li>
+							</ul>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div id="menu9-1" class="tab-pane fade in active">
+							<h3>R9:京丹波</h3>
+							<ul id="ulList9-1" style="width:200%"></ul>
+						</div>	
+						<div id="menu9-2" class="tab-pane fade">
+							<h3> R9:三和</h3>
+							<ul id="ulList9-2" style="width:200%"></ul>
+						</div>
+						<div id="menu9-3" class="tab-pane fade">
+							<h3>R9:福知山</h3>
+							<ul id="ulList9-3" style="width:200%"></ul>
+						</div>
+						<div id="menu9-4" class="tab-pane fade">
+							<h3>R9:夜久野</h3>
+							<ul id="ulList9-4" style="width:200%"></ul>
+						</div>
+						<div id="menu27-1" class="tab-pane fade">
+							<h3>R27:舞鶴</h3>
+							<ul id="ulList27-1" style="width:200%" ></ul>
+						</div>
+						<div id="menu27-2" class="tab-pane fade">
+							<h3>R27:綾部</h3>
+							<ul id="ulList27-2" style="width:200%"></ul>
+						</div>
+						<div id="menu27-3" class="tab-pane fade">
+							<h3>R27:京丹波</h3>
+							<ul id="ulList27-3" style="width:200%"></ul>
+						</div>
+
+						<div id="menuEvnt-0" class="tab-pane fade">
+							<h3>事象：全て</h3>
+							<ul id="ulListEvnt-0" style="width:200%"></ul>
+						</div>
+						<div id="menuEvnt-1" class="tab-pane fade">
+							<h3>事象：落下物</h3>
+							<ul id="ulListEvnt-1" style="width:200%"></ul>
+						</div>
+						<div id="menuEvnt-2" class="tab-pane fade">
+							<h3>事象：事故</h3>
+							<ul id="ulListEvnt-2" style="width:200%"></ul>
+						</div>
+						<div id="menuEvnt-3" class="tab-pane fade">
+							<h3>事象：災害</h3>
+							<ul id="ulListEvnt-3" style="width:200%"></ul>
+						</div>
+						<div id="menuEvnt-4" class="tab-pane fade">
+							<h3>事象：動物死骸</h3>
+							<ul id="ulListEvnt-4" style="width:200%"></ul>
+						</div>
+						<div id="menuEvnt-5" class="tab-pane fade">
+							<h3>事象：苦情</h3>
+							<ul id="ulListEvnt-5" style="width:200%"></ul>
+						</div>
+						<div id="menuEvnt-6" class="tab-pane fade">
+							<h3>事象：通報</h3>
+							<ul id="ulListEvnt-6" style="width:200%"></ul>
+						</div>
+						<div id="menuEvnt-7" class="tab-pane fade">
+							<h3>事象：その他</h3>
+							<ul id="ulListEvnt-7" style="width:200%"></ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
 		</div>
 	</aside>
 	<article><!--地図エリア-->
@@ -36,10 +143,18 @@
 	</article>
 
 	<!-- 以下のスクリプトは、</body直前に置いた方がいいみたい？-->
+	<script src="/javascripts/js/jquery-3.4.1.min.js"></script>
+	<script src="/javascripts/js/jquery-ui.min.js"></script>
+	<script src="/javascripts/js/socket.io.js"></script>
+
+	<script type="text/javascript" src="/javascripts/js/bootstrap.bundle.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAT1CHvQkiTKOdPbmJp2gOpqDIblMgzfI"></script>
 	<script src="/javascripts/initializeGlobalValues.js"></script>
 	<script src="/javascripts/initializeMap.js"></script>
 	<script src="/javascripts/initializeSocketIO.js"></script>
 	<script src="/javascripts/initializeResizableCanvas.js"></script>
+	<script src="/javascripts/myLatLngLst.js"></script>	
+	<script src="/javascripts/initializeKPListItem.js"></script>
+	<script src="/javascripts/clickFunction.js"></script>
 </body>
 </html>
