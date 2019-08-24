@@ -16,9 +16,14 @@ function listClick(elm) {
 
 
 
-	if (Pegman != null) map.removeLayer(Pegman);//既存のペグマンがいれば、それを削除
-	Pegman = L.marker(LatLngLst[elm.id].latlng, { icon: PegmanIcon, rotationAngle: LatLngLst[elm.id].heading, zIndexOffset: 999 }).bindPopup("マーカーをクリックしました。").addTo(map);//選択したリストに対応するペグマンをセット
-	map_pan(elm.id);//ファンクションに渡されたデータオブジェクトは、【e.data.sUid】で参照できる。
+	if (ArrowMarker != null) ArrowMarker.setMap(null);//いったん矢印マーカー削除
+	//Pegman = L.marker(LatLngLst[elm.id].latlng, { icon: PegmanIcon, rotationAngle: LatLngLst[elm.id].heading, zIndexOffset: 999 }).bindPopup("マーカーをクリックしました。").addTo(map);//選択したリストに対応するペグマンをセット
+	//map_pan(elm.id);//ファンクションに渡されたデータオブジェクトは、【e.data.sUid】で参照できる。
+	ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表すマーカー
+		map: MyMap,
+		icon: ArrowIcon
+	});
+	ArrowMarker.setPosition(latLng);
 }
 
 //地図を右クリック時に発火、クリック位置へ移動
