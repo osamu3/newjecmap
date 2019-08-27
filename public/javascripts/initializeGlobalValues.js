@@ -24,3 +24,4 @@ var InitLat = 35.29749372923729; // 緯度
 var InitLng = 135.130990740549;// 経度
 
 var AllEventData = [];//イベントデータ
+var EventEditWindow;
