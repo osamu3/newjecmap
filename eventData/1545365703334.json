@@ -1,0 +1,63 @@
+{
+    "eventId": "1545365703334",
+    "submitButton": "事象登録【実行】",
+    "HeadrCategory": "災害",
+    "HeadrTarget": "その他",
+    "HeadrAttender": "出張所",
+    "HeadrInformer": "警察",
+    "HeadrYear": "2018",
+    "HeadrMonth": "3",
+    "HeadrDay": "6",
+    "HeadrHour": "2",
+    "HeadrMinute": "25",
+    "HeadrRoute": "9",
+    "HeadrCity": "福知山市",
+    "HeadrAddres": "夜久野町日置",
+    "HeadrKp": "101.1",
+    "HeadrChisaki": "ホテルしあわせ付近",
+    "HeadrLane": "上り",
+    "HeadrGaiyou": "倒木により片側車線が塞がっている。",
+    "HeadrLat": "35.32001524349813",
+    "HeadrLng": "134.98467705715314",
+    "HstryYear": [
+        "2018",
+        "2018"
+    ],
+    "HstryMonth": [
+        "3",
+        "3"
+    ],
+    "HstryDay": [
+        "6",
+        "9"
+    ],
+    "HstryHour": [
+        "2",
+        "4"
+    ],
+    "HstryMinute": [
+        "25",
+        "55"
+    ],
+    "HstryContents": [
+        "警察より倒木撤去の依頼あり。安谷組に処理を依頼。",
+        "安谷組より処理完了の連絡を受信"
+    ],
+    "imgFiles": {
+        "imgFileNames": [
+            "1545365703402.JPG",
+            "1545365703431.JPG",
+            "1545365703487.JPG"
+        ],
+        "mimetype": [
+            "image/jpeg",
+            "image/jpeg",
+            "image/jpeg"
+        ],
+        "filePath": [
+            "/eventData/photos/1545365703402.JPG",
+            "/eventData/photos/1545365703431.JPG",
+            "/eventData/photos/1545365703487.JPG"
+        ]
+    }
+}

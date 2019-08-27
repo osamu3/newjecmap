@@ -22,7 +22,7 @@ server.on('listening', onListening);
 
 //②´↓そいつをio.listen
 //var io = require('socket.io')(server);
-scktIoDfn(server);//ソケットＩＯ通信手順の定義は別ファイル
+scktIoDfn(server);//←※注！！ソケットＩＯ通信手順の定義は別ファイル
 
 console.log("WWW Listen Port:3000");
 
@@ -33,11 +33,11 @@ function normalizePort(val) {
 		// named pipe
 		return val;
 	}
- 	if (port >= 0) {
+	if (port >= 0) {
 		// port number
- 		return port;
- 	}
-  return false;
+		return port;
+	}
+	return false;
 }
 
 // Event listener for HTTP server "error" event.
@@ -49,10 +49,10 @@ function onError(error) {
 		? 'Pipe ' + port
 		: 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
- 	switch (error.code) {
- 		case 'EACCES':
- 			console.error(bind + ' requires elevated privileges');
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
 			process.exit(1);
 			break;
 		case 'EADDRINUSE':

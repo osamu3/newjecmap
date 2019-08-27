@@ -3,7 +3,7 @@ var Svs;
 var Svp;
 var MySocketIo = io.connect();
 var LatLngLst; //緯度経度リスト　定義は、myLatLngLst.js にて
-var CurrentKPListItem="";//現在選択しているサイドメニューのKPリスト、初期値は空文字
+var CurrentKPListItem = "";//現在選択しているサイドメニューのKPリスト、初期値は空文字
 
 //ペグマンアイコン定義
 var ArrowAangle = 0;//カメラの角度
@@ -22,3 +22,5 @@ var ArrowMarker;
 
 var InitLat = 35.29749372923729; // 緯度
 var InitLng = 135.130990740549;// 経度
+
+var AllEventData = [];//イベントデータ
