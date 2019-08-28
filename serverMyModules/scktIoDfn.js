@@ -42,6 +42,27 @@ function scktIoDfn(server) {
 			socket.emit("S2C:sendAllEventData", AllEvntData);//どうも配列としてsocket送信する訳だが、送信時に文字列(JSON)に変換されるようだ。
 		});
 
+		//クライアントの子画面から、
+		socket.on('CC2S:sendRequestImgData', function (phtNm, elmId) {//
+			console.log('きたきた:imgNM=' + phtNm + ' elmId=' + elmId);
+			var fs = require('fs');
+			const path = './eventData/photos/' + phtNm;
+			fs.stat(path, (error, stats) => {
+				if (error) {
+					console.log('ファイル【' + path + '】が見つからない。');
+					socket.emit('S2CC:ErrNoSuchFile', path);
+				} else {
+					//画像ファイルをBase64データにしてソケットで送る
+					fs.readFile(path, function (err, data) {
+						var prefix = 'data:image/jpeg;base64,',
+							base64 = new Buffer(data, 'binary').toString('base64'),
+							sendData = prefix + base64;
+						//子画面(イベント編集画面)へソケットで画像送信
+						socket.emit('S2CC:sendBase64PhtData', sendData, elmId);
+					});
+				}
+			});
+		})
 	});
 }
 

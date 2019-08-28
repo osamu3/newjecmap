@@ -232,18 +232,18 @@
                 </tr>
             </table>
         </form>
+        <!-- ↓のスクリプトを外に出したいが、出すと親ページでこのページを開いた時のオンロードイベント実行時のタイミングで呼び出される。
+        下の”setCategory(tagId)”関数が未定義となる-->
         <script>
             var socket = io.connect();
             var AllEventData = [];
-            var RequestImgShowTagId = 0;//サーバーへ画像送信要求時の画像表示タグ位置(Id=タグ番号)
             $(function () {
                 //サーバーへ全てのイベントファイルのデータ送信を依頼
                 socket.emit('CC2S:sendRequestEventFilesData');
 
                 //==========socketIO(サーバーからメッセージが届いた時に発火）=========================
-                socket.on('S2CC:sendBase64ImgData', function (data) {
-                    let thumbnailId = '#thumbnail' + RequestImgShowTagId.toString(10);
-                    RequestImgShowTagId = 0;
+                socket.on('S2CC:sendBase64PhtData', function (data, elmId) {
+                    let thumbnailId = '#thumbnail' + elmId;
 
                     ////画像読み込み完了イベントで、画像縮尺調整　（高さ100に合わせて横幅調整//////////////////////////////////////////////////////////////////////////////////
                     $(thumbnailId).on('load', function () {　//cf:https://blog.emwai.jp/javascript/img-load-not-working/ 、 https://ja.stackoverflow.com/questions/27850/%E7%94%BB%E5%83%8F%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%82%92%E5%BE%85%E3%81%A3%E3%81%A6%E5%87%A6%E7%90%86%E3%81%97%E3%81%9F%E3%81%84
@@ -257,6 +257,7 @@
                         height: "100"
                     });
                 });
+
                 //受信
                 socket.on("S2CC:sendAllEventData", function (allEvntDt) {
                     AllEventData = [];//一旦データクリア
@@ -270,18 +271,23 @@
                 socket.on("S2CC:ErrNoSuchFile", function (errStr) {
                     alert("写真(" + errStr + ")は、サーバーに登録されていません。");
                 });
+
             });
 
             function dispImgBtnClck(elmNm, elmId) {
                 if (elmId > 0 && elmId < 10) {//elmIdは、1以上9以下の筈、画像は９個まで
+                    //elmIdは、クライアント⇔サーバー間の通信で利用し、どのボタンクリックイベントの応答かを判断する。
+
                     //グローバル変数でクリックされた要素番号を保持しておき、ソケット受信時にその番号を利用する。
-                    RequestImgShowTagId = elmId;//こんな事せずに、ソケット受信時のパラメータに、どのリクエストに対する回答を入れて返すのが筋	
+                    //RequestImgShowTagId = elmId;//こんな事せずに、ソケット受信時のパラメータに、どのリクエストに対する回答を入れて返すのが筋	
                     //ソケットでサーバーへ画像送信依頼
-                    socket.emit('CC2S:sendRequestImgData', elmNm);
+                    socket.emit('CC2S:sendRequestImgData', elmNm, elmId);//elmId(クリックされた要素番号)は、サーバからの返信時の引数に付加されて戻ってくる。
+
                 }
             }
 
-            var InsertImgRowBaseId = 8;//起点：添付１のテーブル内の行番号
+            //var InsertImgRowBaseId = 8;//起点：添付１のテーブル内の行番号
+            //事象のカテゴリに合わせて、対象案件をセットする
             function setCategory(tagId) {
                 var opt;
                 switch ($('input[type="radio"]:checked')[0].value) {
