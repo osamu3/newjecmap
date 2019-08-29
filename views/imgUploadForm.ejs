@@ -282,8 +282,7 @@
                     //グローバル変数でクリックされた要素番号を保持しておき、ソケット受信時にその番号を利用する。
                     //RequestImgShowTagId = elmId;//こんな事せずに、ソケット受信時のパラメータに、どのリクエストに対する回答を入れて返すのが筋	
                     //ソケットでサーバーへ画像送信依頼
-                    socket.emit('CC2S:sendRequestImgData', elmNm, elmId);
-					 //↑について、説明elmId(クリックされた要素番号)は、サーバからの返信時の引数に付加されて戻ってくる。
+                    socket.emit('CC2S:sendRequestImgData', elmNm, elmId); //elmId(クリックされた要素番号)は、サーバからの返信時の引数に付加されて戻ってくる。
 				}
             }
 
