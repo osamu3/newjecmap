@@ -58,6 +58,7 @@ function scktIoDfn(server) {
 							base64 = new Buffer(data, 'binary').toString('base64'),
 							sendData = prefix + base64;
 						//子画面(イベント編集画面)へソケットで画像送信
+						console.log('【クライアントへメッセージ送信】S2CC:sendBase64PhtData');
 						socket.emit('S2CC:sendBase64PhtData', sendData, elmId);
 					});
 				}

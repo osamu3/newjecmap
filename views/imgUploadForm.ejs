@@ -243,7 +243,8 @@
 
                 //==========socketIO(サーバーからメッセージが届いた時に発火）=========================
                 socket.on('S2CC:sendBase64PhtData', function (data, elmId) {
-                    let thumbnailId = '#thumbnail' + elmId;
+					console.log('【サーバーからメッセージ着信】S2CC:sendBase64PhtData');
+					let thumbnailId = '#thumbnail' + elmId;
 
                     ////画像読み込み完了イベントで、画像縮尺調整　（高さ100に合わせて横幅調整//////////////////////////////////////////////////////////////////////////////////
                     $(thumbnailId).on('load', function () {　//cf:https://blog.emwai.jp/javascript/img-load-not-working/ 、 https://ja.stackoverflow.com/questions/27850/%E7%94%BB%E5%83%8F%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%82%92%E5%BE%85%E3%81%A3%E3%81%A6%E5%87%A6%E7%90%86%E3%81%97%E3%81%9F%E3%81%84
