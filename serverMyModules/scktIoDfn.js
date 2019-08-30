@@ -44,7 +44,7 @@ function scktIoDfn(server) {
 
 		//クライアントの子画面から、
 		socket.on('CC2S:sendRequestImgData', function (phtNm, elmId) {//
-			console.log('きたきた:imgNM=' + phtNm + ' elmId=' + elmId);
+			//console.log('きたきた:imgNM=' + phtNm + ' elmId=' + elmId);
 			var fs = require('fs');
 			const path = './eventData/photos/' + phtNm;
 			fs.stat(path, (error, stats) => {
