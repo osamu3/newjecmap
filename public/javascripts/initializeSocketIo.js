@@ -6,9 +6,9 @@ $(function () {
 	MySocketIo.emit('C2S:sendRequestEventFilesData', 'データおくれ');
 
 	//==========socketIO(サーバーからメッセージが届いた時に発火）=========================
-	MySocketIo.on('S2C:sendAllEventData', function (data) {
-		console.log(':サーバーからメッセージがありました。\n');
-	});
+	//MySocketIo.on('S2C:sendAllEventData', function (data) {
+	//	console.log(':サーバーからメッセージがありました。\n');
+	//});
 
 	MySocketIo.on('S2C:sendAllEventData', function (allEvntData) {
 		console.log('サーバーから全てのイベントデータが届きました。\n');

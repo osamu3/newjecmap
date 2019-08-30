@@ -28,8 +28,40 @@ $(function () {
 				html27_3 = html27_3 + '<li class="mapPoint" id="' + sortedArr[id].id + '" onClick="listClick(this)">' +'<a href="#" class="link">' + kiroPost + "KP: " + LatLngLst[sortedArr[id].id].title + '</a></li>';
 
 		//キロポストから適切なマーカーアイコン名を設定
-		if (Number.isInteger(kiroPost)) mapIconNm = "img/marker" + sortedArr[id].kp + ".png"
-		else { alert("緯度経度リスト中に整数以外の数値がありました。"); }
+		if (Number.isInteger(kiroPost)){
+			if(sortedArr[id].route == 9){
+				mapIconNm = "images/marker" + sortedArr[id].kp + ".png";
+			}
+			if(sortedArr[id].route == 27){
+				mapIconNm = "images/marker" + sortedArr[id].kp + "G.png";
+			}
+		}else { alert("緯度経度リスト中に整数以外の数値がありました。"); }
+
+		var marker = new google.maps.Marker({
+			position:new google.maps.LatLng(LatLngLst[sortedArr[id].id].latlng),
+			map: MyMap,
+			icon:{
+				url:mapIconNm
+			},
+			latLangListId:sortedArr[id].id
+		});
+
+		//KPマーカークリック時のイベント定義
+		google.maps.event.addDomListener(marker,'click',function(){
+			//"this" は、クリックされたマーカーのこと。"this.latLangListId"は、マーカー定義時に定義している
+			let latLng = LatLngLst[this.latLangListId].latlng;
+			MyMap.panTo(latLng);
+			Svp.setPosition(latLng);//ストリートビューも連動
+			//ストリートビューのカメラの向きをセット
+			Svp.setPov({ heading: LatLngLst[this.latLangListId].heading, pitch: LatLngLst[this.latLangListId].pitch, zoom: LatLngLst[this.latLangListId].zoom});
+		
+			if (ArrowMarker != null) ArrowMarker.setMap(null);//いったん矢印マーカー削除
+			ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表すマーカー
+				map: MyMap,
+				icon: ArrowIcon
+			});
+			ArrowMarker.setPosition(latLng);
+		});
 		///////////////////////////////////////////////////////////////////////////////////////
 		/////////////////////
 		//////////////////////////////////////////////////

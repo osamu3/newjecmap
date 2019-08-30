@@ -13,6 +13,8 @@ function listClick(elm) {
 	let latLng = new google.maps.LatLng(LatLngLst[elm.id].latlng.lat, LatLngLst[elm.id].latlng.lng);
 	MyMap.panTo(latLng);
 	Svp.setPosition(latLng);//ストリートビューも連動
+	//ストリートビューのカメラの向きをセット
+	Svp.setPov({ heading: LatLngLst[elm.id].heading, pitch: LatLngLst[elm.id].pitch, zoom: LatLngLst[elm.id].zoom })
 
 	if (ArrowMarker != null) ArrowMarker.setMap(null);//いったん矢印マーカー削除
 	//Pegman = L.marker(LatLngLst[elm.id].latlng, { icon: PegmanIcon, rotationAngle: LatLngLst[elm.id].heading, zIndexOffset: 999 }).bindPopup("マーカーをクリックしました。").addTo(map);//選択したリストに対応するペグマンをセット
