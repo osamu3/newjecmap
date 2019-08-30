@@ -25,3 +25,28 @@ var InitLng = 135.130990740549;// 経度
 
 var AllEventData = [];//イベントデータ
 var EventEditWindow;
+
+var shikaIcon = {
+	url:"images/shika.png",
+	scaledSize:new google.maps.Size(30,30)
+}
+var inosisiIcon = {
+	url:"images/inosisi.png",
+	scaledSize:new google.maps.Size(30,20)
+}
+var animalSIcon = {
+	url:"images/animalS.png",
+	scaledSize:new google.maps.Size(20,15)
+}
+var accidentIcon = {
+	url:"images/accident.png",
+	scaledSize:new google.maps.Size(30,20)
+}
+var notificationIcon = {
+	url:"images/notification.png",
+	scaledSize:new google.maps.Size(20,15)
+}
+var fallingObjIcon = {
+	url:"images/fallingObj.png",
+	scaledSize:new google.maps.Size(20,15)
+}
