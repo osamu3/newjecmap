@@ -62,14 +62,8 @@ $(function () {
 			});
 			ArrowMarker.setPosition(latLng);
 		});
-		///////////////////////////////////////////////////////////////////////////////////////
-		/////////////////////
 		//////////////////////////////////////////////////
 		///////////////L.はリーフレット用、googleMapは別のやり方で////////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////////////////////
-
 		//var mapIcon = L.icon({
 		//	iconUrl: mapIconNm,
 		//	iconRetinaUrl: mapIconNm,
@@ -77,51 +71,6 @@ $(function () {
 		//	iconAnchor: [10, 20],
 		//	popupAnchor: [0, 0]
 		//});
-		/*
-		var marker = new L.marker(
-			LatLngLst[sortedArr[id].id].latlng,	{
-				title: sortedArr[id].id,//当該マーカーにセットするLatLngLst配列のIDをタイトルにセット
-				icon: mapIcon
-			}	//       ).addTo(map).on('click', function (e) {
-		);
-		*/
-		/*
-		if (sortedArr[id].route == 9) {
-			LyrR9Kp.addLayer(new L.marker(
-				LatLngLst[sortedArr[id].id].latlng,
-				{
-					title: sortedArr[id].id,//当該マーカーにセットするLatLngLst配列のIDをタイトルにセット
-					icon: mapIcon,
-					zIndexOffset: 0  //マイナスにすると、チップセット型マーカのZIndexより下になる。←そうとは言えない
-				}).on('click', function (e) {
-					map.panTo(e.latlng);
-					svp.setPosition(e.latlng);
-					//クリックしたマーカーのタイトルは、LatLngLst配列のIDとなっているのが前提
-					//マーカーのタイトルから、LatLngLst配列の要素を取得し、ストリートビューのプロパティに設定する。
-					svp.setPov({ heading: LatLngLst[this.options.title].heading, pitch: LatLngLst[this.options.title].pitch, zoom: LatLngLst[this.options.title].zoom });
-				}));
-		}
-		if (sortedArr[id].route == 27) {
-			LyrR27Kp.addLayer(new L.marker(
-				LatLngLst[sortedArr[id].id].latlng, {
-					title: sortedArr[id].id, icon: mapIcon, zIndexOffset: 0
-				}).on('click', function (e) {
-					map.panTo(e.latlng);
-					svp.setPosition(e.latlng);
-					svp.setPov({ heading: LatLngLst[this.options.title].heading, pitch: LatLngLst[this.options.title].pitch, zoom: LatLngLst[this.options.title].zoom });
-				}));
-		}
-		*/
-		/*
-				addTo(map).on('click', function (e) {
-					//alert("Lat:" + LatLngLst[this.options.title].latlng.lat + " Lng:" + LatLngLst[this.options.title].latlng.lng);
-					map.panTo(e.latlng);
-					svp.setPosition(e.latlng);
-					//クリックしたマーカーのタイトルは、LatLngLst配列のIDとなっているのが前提
-					//マーカーのタイトルから、LatLngLst配列の要素を取得し、ストリートビューのプロパティに設定する。
-					svp.setPov({ heading: LatLngLst[this.options.title].heading, pitch: LatLngLst[this.options.title].pitch, zoom: LatLngLst[this.options.title].zoom });
-				});
-		*/
 	};
 
 	//一旦、子要素を削除してリストを空にする。

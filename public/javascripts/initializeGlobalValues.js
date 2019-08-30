@@ -17,8 +17,11 @@ var ArrowIcon = {  //ストリートビューカメラの方向を示す矢印�
 	//url: "images/pegman.png",
 	//scaledSize:new google.maps.Size(19,19)			//scaledSize?:Size		リサイズ
 };
+
 //ペグマン定義
 var ArrowMarker;
+
+var EventMarker;
 
 var InitLat = 35.29749372923729; // 緯度
 var InitLng = 135.130990740549;// 経度
@@ -49,4 +52,9 @@ var notificationIcon = {
 var fallingObjIcon = {
 	url:"images/fallingObj.png",
 	scaledSize:new google.maps.Size(20,15)
+}
+
+var disasterIcon = {
+	url:"images/disasterIcon.png",
+	scaledSize:new google.maps.Size(30,30)
 }
