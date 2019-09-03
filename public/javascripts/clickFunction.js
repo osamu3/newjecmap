@@ -102,7 +102,7 @@ function eventListClick(elm) {
 	}
 
 	//アップロード用の子フォームを表示、ここで子フォームの幅や高さ、ツールバーの表示などを指定していることに注意
-	EventEditWindow = window.open('/imgUploadForm', 'imgUploadForm', 'width=570, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
+	EventEditWindow = window.open('/imgUploadForm', 'imgUploadForm', 'width=600, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
 	$(EventEditWindow).on('load', function () {
 		//以下、別ファンクションにまとめる。
 		let eventMarkerIcon;//事象種別表示用のアイコン
@@ -133,10 +133,15 @@ function eventListClick(elm) {
 					$(EventEditWindow.document).find('#id_HdrCtgryKujou')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
 					eventMarkerIcon = claimIcon;
 				}
+				if (itm.HeadrCategory == "動物死骸") {
+					$(EventEditWindow.document).find('#id_HdrCtgryShigai')[0].checked = true;
+					$(EventEditWindow.document).find('#id_HdrCtgryShigai')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
+					eventMarkerIcon = animalSIcon;
+				}
 				if (itm.HeadrCategory == "通報") {
 					$(EventEditWindow.document).find('#id_HdrCtgryTuuhou')[0].checked = true;
 					$(EventEditWindow.document).find('#id_HdrCtgryTuuhou')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
-					eventMarkerIcon = notification;
+					eventMarkerIcon = notificationIcon;
 				}
 				if (itm.HeadrCategory == "その他") {
 					$(EventEditWindow.document).find('#id_HdrCtgrySonota')[0].checked = true;

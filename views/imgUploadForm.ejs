@@ -110,7 +110,7 @@
             <table border="0" rules="groups" id="EventTblBody">
                 <thead>
                     <tr bgcolor="#cbdcee" id="tr_Head">
-                        <td><b>受信日時：</b> </td>
+                        <td colspan="1"><b>受信日時：</b> </td>
                         <td><select name="HeadrYear" id="id_HeadrYear"></select>年</td>
                         <td><select name="HeadrMonth" id="id_HeadrMonth"></select>月</td>
                         <td><select name="HeadrDay" id="id_HeadrDay"></select>日</td>
@@ -160,7 +160,7 @@
                 <tr bgcolor="#dbf0ce">
                     <td align="center" style="font-size: 15px;">内　容</td>
                     <td colspan="6">
-                        <textarea id="id_Itm1Contents" name="HstryContents" cols="52" rows="3" wrap="hard" value=""
+                        <textarea id="id_Itm1Contents" name="HstryContents" cols="65" rows="3" wrap="hard" value=""
                             placeholder="(内容を入力)"></textarea>
                     </td>
                 </tr>
@@ -477,7 +477,7 @@
                 td7.style = "font-size:15px";
                 td8.setAttribute('colspan', '6');
 
-                var tdStr7 = '内　容', tdStr8 = '<textarea name="HstryContents" id="id_Itm' + HistoryAddItmNo.toString(10) + 'Contents" cols="52" rows="3" wrap="hard" value="" placeholder="(内容を入力)"></textarea>';
+                var tdStr7 = '内　容', tdStr8 = '<textarea name="HstryContents" id="id_Itm' + HistoryAddItmNo.toString(10) + 'Contents" cols="65" rows="3" wrap="hard" value="" placeholder="(内容を入力)"></textarea>';
 
                 td7.innerHTML = tdStr7; td8.innerHTML = tdStr8;
 

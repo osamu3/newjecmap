@@ -1,0 +1,54 @@
+{
+    "eventId": "1545365703336",
+    "submitButton": "事象登録【実行】",
+    "HeadrCategory": "落下物",
+    "HeadrTarget": "車両部品",
+    "HeadrAttender": "維持業者",
+    "HeadrInformer": "管理センター",
+    "HeadrYear": "2018",
+    "HeadrMonth": "4",
+    "HeadrDay": "12",
+    "HeadrHour": "7",
+    "HeadrMinute": "30",
+    "HeadrRoute": "9",
+    "HeadrCity": "福知山市",
+    "HeadrAddres": "篠尾",
+    "HeadrKp": "84.4",
+    "HeadrChisaki": "ユニクロ付近",
+    "HeadrLane": "上り",
+    "HeadrGaiyou": "落下物の撤去。",
+    "HeadrLat": "35.29465744",
+    "HeadrLng": "135.1151036",
+    "HstryYear": [
+        "2018",
+        "2018",
+        "2018"
+    ],
+    "HstryMonth": [
+        "4",
+        "4",
+        "4"
+    ],
+    "HstryDay": [
+        "12",
+        "12",
+        "12"
+    ],
+    "HstryHour": [
+        "7",
+        "7",
+        "8"
+    ],
+    "HstryMinute": [
+        "30",
+        "33",
+        "55"
+    ],
+    "HstryContents": [
+        "高規格管理センターより緊急ダイヤルにて、車両部品らしき物が道路上に落ちているとの通報があった旨を受信。",
+        "安谷組加藤代理人へ処理を依頼",
+        "安谷組加藤代理人より処理完了の連絡を受信"
+    ],
+    "imgFiles": {
+    }
+}

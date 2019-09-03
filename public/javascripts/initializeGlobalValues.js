@@ -39,7 +39,7 @@ var inosisiIcon = {
 }
 var animalSIcon = {
 	url:"images/animalS.png",
-	scaledSize:new google.maps.Size(20,15)
+	scaledSize:new google.maps.Size(30,20)
 }
 var accidentIcon = {//事故
 	url:"images/accident.png",
@@ -51,7 +51,7 @@ var notificationIcon = {//通報
 }
 var fallingObjIcon = {//落とし物
 	url:"images/fallingObj.png",
-	scaledSize:new google.maps.Size(20,15)
+	scaledSize:new google.maps.Size(30,25)
 }
 
 var disasterIcon = {//災害

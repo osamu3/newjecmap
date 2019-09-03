@@ -1,0 +1,54 @@
+{
+    "eventId": "1545365703335",
+    "submitButton": "事象登録【実行】",
+    "HeadrCategory": "動物死骸",
+    "HeadrTarget": "小動物",
+    "HeadrAttender": "維持業者",
+    "HeadrInformer": "警察",
+    "HeadrYear": "2018",
+    "HeadrMonth": "3",
+    "HeadrDay": "6",
+    "HeadrHour": "2",
+    "HeadrMinute": "25",
+    "HeadrRoute": "27",
+    "HeadrCity": "舞鶴市",
+    "HeadrAddres": "引土",
+    "HeadrKp": "90.1",
+    "HeadrChisaki": "西舞鶴高校付近",
+    "HeadrLane": "上り",
+    "HeadrGaiyou": "ネコの死骸処理。",
+    "HeadrLat": "35.43906605012677",
+    "HeadrLng": "135.32851238715375",
+    "HstryYear": [
+        "2018",
+        "2018",
+        "2018"
+    ],
+    "HstryMonth": [
+        "3",
+        "3",
+        "3"
+    ],
+    "HstryDay": [
+        "6",
+        "6",
+        "6"
+    ],
+    "HstryHour": [
+        "2",
+        "2",
+        "3"
+    ],
+    "HstryMinute": [
+        "25",
+        "30",
+        "50"
+    ],
+    "HstryContents": [
+        "舞鶴警察署より緊急ダイヤルにて、小動物の死骸があるとの通報を受信。",
+        "今村工業河嶋氏へ処理を依頼",
+        "今村工業河嶋氏より処理完了の連絡を受信"
+    ],
+    "imgFiles": {
+    }
+}
