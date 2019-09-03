@@ -105,52 +105,43 @@ function eventListClick(elm) {
 	EventEditWindow = window.open('/imgUploadForm', 'imgUploadForm', 'width=570, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
 	$(EventEditWindow).on('load', function () {
 		//以下、別ファンクションにまとめる。
+		let eventMarkerIcon;//事象種別表示用のアイコン
+		//全てのイベントデータ(グローバル変数）を走査し、今回クリックされた要素のIDと同じものがあれば、アップロードフォームに転記する。
 		for (let itm of AllEventData) { //「AllEventData」はグローバル変数
-			//全てのイベントデータから、今回クリックされた要素のIDと同じものであれば、アップロードフォームに転記する。
 			if (itm.eventId == elm.id) {
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////                               /////////////////////////////////////////////////////
-/////////////////                ING            /////////////////////////////////////////////////////
-/////////////////                               /////////////////////////////////////////////////////
-/////////////////↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓/////////////////////////////////////////////////////
-				//既存のイベントマーカーを消してからマーカーを立てる。
-				if (EventMarker != null) EventMarker.setMap(null);//いったん矢印マーカー削除
-				EventMarker = new google.maps.Marker({
-					map: MyMap,
-					icon: shikaIcon
-				});
-				いんｇ　
-				let latLng = {"lat": itm.HeadrLat, "lng": itm.HeadrLng}
-				EventMarker.setPosition(latLng);←←←このlatLng定義ではエラーになる。
-/////////////////↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑/////////////////////////////////////////////////////
-/////////////////                               /////////////////////////////////////////////////////
-/////////////////                ING            /////////////////////////////////////////////////////
-/////////////////                               /////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+				let latLng = new google.maps.LatLng(itm.HeadrLat, itm.HeadrLng);
+				//事象位置を地図の中心に
+				MyMap.panTo(latLng);
 
 				if (itm.HeadrCategory == "落下物") {
 					$(EventEditWindow.document).find('#id_HdrCtgryRakkabutu')[0].checked = true;
 					$(EventEditWindow.document).find('#id_HdrCtgryRakkabutu')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
+					eventMarkerIcon = fallingObjIcon;
 				}
 				if (itm.HeadrCategory == "事故") {
 					$(EventEditWindow.document).find('#id_HdrCtgryJiko')[0].checked = true;
 					$(EventEditWindow.document).find('#id_HdrCtgryJiko')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
+					eventMarkerIcon = accidentIcon;
 				}
 				if (itm.HeadrCategory == "災害") {
 					$(EventEditWindow.document).find('#id_HdrCtgrySaigai')[0].checked = true;
 					$(EventEditWindow.document).find('#id_HdrCtgrySaigai')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
+					eventMarkerIcon = disasterIcon;
 				}
 				if (itm.HeadrCategory == "苦情") {
 					$(EventEditWindow.document).find('#id_HdrCtgryKujou')[0].checked = true;
 					$(EventEditWindow.document).find('#id_HdrCtgryKujou')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
+					eventMarkerIcon = claimIcon;
 				}
 				if (itm.HeadrCategory == "通報") {
 					$(EventEditWindow.document).find('#id_HdrCtgryTuuhou')[0].checked = true;
 					$(EventEditWindow.document).find('#id_HdrCtgryTuuhou')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
+					eventMarkerIcon = notification;
 				}
 				if (itm.HeadrCategory == "その他") {
 					$(EventEditWindow.document).find('#id_HdrCtgrySonota')[0].checked = true;
 					$(EventEditWindow.document).find('#id_HdrCtgrySonota')[0].onchange();//チェックボックスが変化したときのイベントの強制呼出し。
+					eventMarkerIcon = notification;
 				}
 
 				$(EventEditWindow.document).find('#eventId')[0].value = itm.eventId;
@@ -206,7 +197,6 @@ function eventListClick(elm) {
 					}
 				}
 
-
 				//画像が添付されていれば、ソケットでサーバーへ要求する。
 				//画像添付欄は、９個まで作成済みである。
 				if (itm.imgFiles) {//【imgFiles】要素があれば（画像があれば)
@@ -223,25 +213,14 @@ function eventListClick(elm) {
 						}
 					}
 				}
-				//else {//配列型であれば（複数の履歴があれば
-				//	let elmStr;	//検索する要素名
-				//	//配列の個数回繰り返し
-				//	for (let i = 1; i < itm.HstryYear.length + 1; i++) {
+				//既存のイベントマーカーを消してからマーカーを立てる。
+				if (EventMarker != null) EventMarker.setMap(null);//いったん矢印マーカー削除
+				EventMarker = new google.maps.Marker({
+					map: MyMap,
+					icon: eventMarkerIcon
+				});
+				EventMarker.setPosition(latLng);
 			}
-			/*
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-							$(UpLoadWin.document).find('#id_HeadrInformer')[0].value = itm.HeadrInformer;
-			*/
-
 		}
 	});
 }

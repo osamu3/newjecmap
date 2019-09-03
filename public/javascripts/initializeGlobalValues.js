@@ -41,20 +41,25 @@ var animalSIcon = {
 	url:"images/animalS.png",
 	scaledSize:new google.maps.Size(20,15)
 }
-var accidentIcon = {
+var accidentIcon = {//事故
 	url:"images/accident.png",
-	scaledSize:new google.maps.Size(30,20)
+	scaledSize:new google.maps.Size(40,25)
 }
-var notificationIcon = {
+var notificationIcon = {//通報
 	url:"images/notification.png",
 	scaledSize:new google.maps.Size(20,15)
 }
-var fallingObjIcon = {
+var fallingObjIcon = {//落とし物
 	url:"images/fallingObj.png",
 	scaledSize:new google.maps.Size(20,15)
 }
 
-var disasterIcon = {
+var disasterIcon = {//災害
 	url:"images/disasterIcon.png",
 	scaledSize:new google.maps.Size(30,30)
+}
+
+var claimIcon = {//苦情
+	url:"images/claim.gif",
+	scaledSize:new google.maps.Size(20,30)
 }
