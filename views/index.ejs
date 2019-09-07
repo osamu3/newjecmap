@@ -14,7 +14,6 @@
 			<!-- サイドメニュー-->
 			<div>
 				<section>
-					<h1>カテゴリー</h1>
 					<div>
 						<table>
 							<tr>
@@ -26,10 +25,17 @@
 								<td><input type="button" value="緯度コピー" onclick="tagTextToClipboard('currentLng');" /></td>
 							</tr>
 						</table>
-						<div>
-							<span style="font-size: medium"><strong>特記事象登録</strong></span>
-							<INPUT type="button" value="登録用フォームを開く" onClick="openImgUploadForm();">
-						</div>
+						<table style="font-size: 8pt; ">
+							<tr>
+								<td width="100" bgcolor="#80ffff">住所:</td>
+								<td id="city" width="100" bgcolor="#80ffff"></td>
+								<td id="address" width="300" bgcolor="#80ffff"></td>
+							</tr>
+						</table>
+					</div>
+					<div>
+						<span style="font-size: medium"><strong>特記事象登録</strong></span>
+						<input type="button" value="登録用フォームを開く" onClick="openEvntDtUploadForm();">
 					</div>
 					<div class="row">
 						<!-- Bootstrap4による画面サイズ設定　これ↓("col-sm-10")を定義しておかないと、「Ｒ９」の「Ｒ」が表示されない -->
@@ -159,7 +165,13 @@
 		<script src="/javascripts/js/socket.io.js"></script>
 
 		<script type="text/javascript" src="/javascripts/js/bootstrap.bundle.min.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAT1CHvQkiTKOdPbmJp2gOpqDIblMgzfI"></script>
+		<!--どのキーか分からん。グーグルコンソールで、大黒３＠gmail.com でログイン　ダッシュボードで確認
+			リファラーはローカルホストにした。
+			https://console.cloud.google.com/home/dashboard?hl=ja&project=newjec-map　
+			 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAT1CHvQkiTKOdPbmJp2gOpqDIblMgzfI"></script> 
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMMhzZVxRmnlDJUDLLnIZsDVgmw3bj0g4"></script>
+-->
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNgVIwF9P1Ze0jkLo7OC-aT2ACCXBSFAY"></script>
 		<script src="/javascripts/initializeGlobalValues.js"></script>
 		<script src="/javascripts/initializeMap.js"></script>
 		<script src="/javascripts/initializeSocketIO.js"></script>

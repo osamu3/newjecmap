@@ -1,3 +1,4 @@
+
 //緯度経度リストがクリックされた時に発火
 function listClick(elm) {
 	//訪問済みリンクの色を変える？
@@ -5,8 +6,6 @@ function listClick(elm) {
 		//CurrentKPListItem.style.backgroundColor = '#ffffff';
 		CurrentKPListItem.style.color = 'black';
 	}
-	//elm.style.backgroundColor = '#ccccca';
-	//elm.style.fontWeight = 'bold';
 	elm.style.color = 'orangered';
 	CurrentKPListItem = elm;
 
@@ -24,6 +23,7 @@ function listClick(elm) {
 		icon: ArrowIcon
 	});
 	ArrowMarker.setPosition(latLng);
+	latLng2AddressFn(latLng);//緯度経度から住所を求め、画面(住所タブ)に表示
 }
 
 //地図を右クリック時に発火、クリック位置へ移動
@@ -39,6 +39,60 @@ function mapClick2PanEventFn(e) {
 		icon: ArrowIcon
 	});
 	ArrowMarker.setPosition(latLng);
+	latLng2AddressFn(latLng);//緯度経度から住所を求め、画面(住所タブ)に表示
+}
+
+//緯度経度住所に変換後、画面の住所タブに書き込む。戻り値なし
+function latLng2AddressFn(latLng) {
+	var geocoder = new google.maps.Geocoder();
+	// geocodeリクエストを実行。
+	// 第１引数はGeocoderRequest。緯度経度⇒住所の変換時はlatLngプロパティを入れればOK。
+	// 第２引数はコールバック関数。
+	geocoder.geocode({
+		latLng: latLng
+	}, function (results, status) {
+		if (status === 'OK' && results[0]) {  //status を確認して処理開始
+			//// 住所コンポーネントを取得
+			var adrCmp = results[0].address_components;
+			//住所コンポーネント配列長が5以上の時
+			if (adrCmp.length > 5) {
+				var i;
+				for (i = 0; i < adrCmp.length; i++) {
+					if (adrCmp[i].short_name.match(/^(舞鶴市|綾部市|福知山市|京丹波町)$/) != null) {
+						switch (i) {
+							case 2:
+								$('#city').html(adrCmp[2].short_name);
+								$('#address').html(adrCmp[1].short_name);
+								break;
+							case 3:
+								$('#city').html(adrCmp[3].short_name);
+								$('#address').html(adrCmp[2].short_name + adrCmp[1].short_name);
+								break;
+							case 4:
+								$('#city').html(adrCmp[4].short_name);
+								$('#address').html(adrCmp[3].short_name + adrCmp[2].short_name + adrCmp[1].short_name);
+								break;
+							case 5:
+								$('#city').html(adrCmp[5].short_name);
+								$('#address').html(adrCmp[4].short_name + adrCmp[3].short_name + adrCmp[2].short_name + adrCmp[1].short_name);
+								break;
+							default:
+								$('#city').html("？");
+								$('#address').html("？");
+						}
+						break;
+					}
+				}
+			} else {
+				$('#city').html("？");
+				$('#address').html("？");
+			}
+		} else {
+			$('#city').html("？");
+			$('#address').html("？");
+			console.log('緯度経度→住所変更に失敗しました。理由: ' + status);
+		}
+	});
 }
 
 //ストリートビューカメラ回転時に発火
@@ -56,15 +110,20 @@ function svpCameraRotaitionEventFn() {
 	ArrowMarker.setPosition(latLng);//緯度経度をセット
 }
 
+//カメラ移動時
 function svpCameraMoveEventFn() {
-	//$("#currentLatTag")[0].innerText = svp.getLocation().latLng.lat();//現在位置を表示
-	//$("#currentLngTag")[0].innerText = svp.getLocation().latLng.lng();
+	//緯度経度を表示
+	$("#currentLatTag")[0].innerText = Svp.getLocation().latLng.lat();//現在位置を表示
+	$("#currentLngTag")[0].innerText = Svp.getLocation().latLng.lng();
+	let latLng = new google.maps.LatLng(Svp.getLocation().latLng.lat(), Svp.getLocation().latLng.lng());
+	//住所を表示
+	latLng2AddressFn(latLng);
 }
 
-function openImgUploadForm() {
-	var queryStr = '?' + $('#currentLatTag')[0].innerText + '&' + $('#currentLngTag')[0].innerText;
+function openEvntDtUploadForm() {
+	var queryStr = '?' + $('#currentLatTag')[0].innerText + '&' + $('#currentLngTag')[0].innerText+'&'+$('#city')[0].innerText+'&'+$('#address')[0].innerText;
 	//アップロード用の子フォームを表示、ここで子フォームの幅や高さ、ツールバーの表示などを指定していることに注意
-	UpLoadWin = window.open('/imgUploadForm' + queryStr, 'imgUploadForm', 'width=600, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
+	UpLoadWin = window.open('/evntDtUploadForm' + queryStr, 'evntDtUploadForm', 'width=600, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
 
 	/*
 	var marker01 = L.marker([svp.getLocation().latLng.lat(), svp.getLocation().latLng.lng()], {
@@ -102,7 +161,7 @@ function eventListClick(elm) {
 	}
 
 	//アップロード用の子フォームを表示、ここで子フォームの幅や高さ、ツールバーの表示などを指定していることに注意
-	EventEditWindow = window.open('/imgUploadForm', 'imgUploadForm', 'width=600, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
+	EventEditWindow = window.open('/EvntDtUploadForm', 'EvntDtUploadForm', 'width=600, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
 	$(EventEditWindow).on('load', function () {
 		//以下、別ファンクションにまとめる。
 		let eventMarkerIcon;//事象種別表示用のアイコン
@@ -112,6 +171,11 @@ function eventListClick(elm) {
 				let latLng = new google.maps.LatLng(itm.HeadrLat, itm.HeadrLng);
 				//事象位置を地図の中心に
 				MyMap.panTo(latLng);
+				//緯度経度を表示
+				$("#currentLatTag")[0].innerText = itm.HeadrLat;//現在位置を表示
+				$("#currentLngTag")[0].innerText = itm.HeadrLng;
+				//住所を表示
+				latLng2AddressFn(latLng);
 
 				if (itm.HeadrCategory == "落下物") {
 					$(EventEditWindow.document).find('#id_HdrCtgryRakkabutu')[0].checked = true;

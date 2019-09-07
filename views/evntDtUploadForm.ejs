@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
-
     <head>
-        <meta charset="utf-8" />
+		<meta charset="utf-8" />
+		<title> EvwntData UpLoad</title>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 			crossorigin="anonymous">
@@ -11,8 +11,13 @@
     </head>
 
     <body>
-        <form action="/images" method="post" enctype="multipart/form-data" name='form1'>
-            <table border="0" rules="groups" id="EventTblHeadr" border=0 cellpadding=0 cellspacing=0 width=100%>
+		<!--
+		<button type="button" onclick = "function tmp(){alert($('#id_HeadrCity')[0].value)} tmp();">表示</button>
+		<button type="button" onclick = "function tmp(){$('#id_HeadrCity')[0].value='舞鶴市'} tmp();">変更</button>
+		-->
+
+        <form action="/imgUploadForm" method="post" enctype="multipart/form-data" name="form1">
+            <table border="0" rules="groups" id="EventTblHeadr" cellpadding="0" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <td align="center" colspan="4">
@@ -26,12 +31,12 @@
                     <tr>
                         <td align="center" colspan="7" bgcolor="#ff7075">
                             <input type="submit" id="id_submitButton" name="submitButton" value="事象登録【実行】"
-                                onClick="return submitFormFn();">
+								onclick="return submitFormFn();">
                         </td>
                     </tr>
                     <tr>
                         <td align="left" colspan="7" bgcolor="#ff7075">
-                            <input type="button" value="事象削除【実行】" onClick=delThisDataFn()>
+                            <input type="button" value="事象削除【実行】"  onClick="delThisDataFn()">
                         </td>
                     </tr>
                     <tr>
@@ -84,7 +89,7 @@
                     <td align="center">
                         <select name="HeadrInformer" id="id_HeadrInformer"
                             style="background-color:#88ccff; font-size : 15px;">
-                            <option value='' disabled selected style='display:none;'>(通報者を選択)</option>
+                            <option value="" disabled selected style="display:none;">(通報者を選択)</option>
                             <option value="管理センター">管理センター</option>
                             <option value="警察">警察</option>
                             <option value="市町">市町</option>
@@ -101,7 +106,6 @@
                         </select>
                     </td>
                     <td>&nbsp;&nbsp;&nbsp;</td>
-                    </tr>
                     <tr>
                         <td td height="5"></td>
                     </tr>
@@ -238,13 +242,15 @@
         <script>
             var socket = io.connect();
             var AllEventData = [];
+				
             $(function () {
-                //サーバーへ全てのイベントファイルのデータ送信を依頼
-                socket.emit('CC2S:sendRequestEventFilesData');
+				//サーバーへ全てのイベントファイルのデータ送信を依頼
+				//alert("ここは何をするところ");
+				//socket.emit('CC2S:sendRequestEventFilesData');
 
-                //==========socketIO(サーバーからメッセージが届いた時に発火）=========================
+                //==========socketIO(サーバーから写真が届いた時に発火）=========================
                 socket.on('S2CC:sendBase64PhtData', function (data, elmId) {
-					console.log('【サーバーからメッセージ着信】S2CC:sendBase64PhtData');
+					console.log('【サーバーから写真着信】S2CC:sendBase64PhtData');
 					let thumbnailId = '#thumbnail' + elmId;
 
                     ////画像読み込み完了イベントで、画像縮尺調整　（高さ100に合わせて横幅調整//////////////////////////////////////////////////////////////////////////////////
@@ -261,22 +267,22 @@
                 });
 
                 //受信
-                socket.on("S2CC:sendAllEventData", function (allEvntDt) {
-                    AllEventData = [];//一旦データクリア
-                    for (let itm of allEvntDt) {//イベントデータを一つづつ取り出す。 itmはJSonStrings
-                        itm = itm.replace(/\\/g, "\\\\");//サーバー側のデータ中の画像ファイルへのパスに"\"が含まれており、JSON.parseでエラーになるため
-                        itm = JSON.parse(itm);//JSオブジェクト配列に変換
-                        AllEventData.push(itm);// 
-                    }
-                });
+                //socket.on("S2CC:sendAllEventData", function (allEvntDt) {
+                 //   AllEventData = [];//一旦データクリア
+                 //   for (let itm of allEvntDt) {//イベントデータを一つづつ取り出す。 itmはJSonStrings
+                 //       itm = itm.replace(/\\/g, "\\\\");//サーバー側のデータ中の画像ファイルへのパスに"\"が含まれており、JSON.parseでエラーになるため
+                 //       itm = JSON.parse(itm);//JSオブジェクト配列に変換
+                 //       AllEventData.push(itm);// 
+                 //   }
+                //});
                 //serverエラー受信
-                socket.on("S2CC:ErrNoSuchFile", function (errStr) {
-                    alert("写真(" + errStr + ")は、サーバーに登録されていません。");
-                });
+                //socket.on("S2CC:ErrNoSuchFile", function (errStr) {
+                 //   alert("写真(" + errStr + ")は、サーバーに登録されていません。");
+                //});
 
             });
-
-            function dispImgBtnClck(elmNm, elmId) {
+			
+			function dispImgBtnClck(elmNm, elmId) {
                 if (elmId > 0 && elmId < 10) {//elmIdは、1以上9以下の筈、画像は９個まで
                     //elmIdは、クライアント⇔サーバー間の通信で利用し、どのボタンクリックイベントの応答かを判断する。
 
@@ -284,6 +290,7 @@
                     //RequestImgShowTagId = elmId;//こんな事せずに、ソケット受信時のパラメータに、どのリクエストに対する回答を入れて返すのが筋	
                     //ソケットでサーバーへ画像送信依頼
                     socket.emit('CC2S:sendRequestImgData', elmNm, elmId); //elmId(クリックされた要素番号)は、サーバからの返信時の引数に付加されて戻ってくる。
+					//返信は、[soket]の[sendBase64PhtData]で
 				}
             }
 
@@ -360,8 +367,6 @@
 
             //アップロードイベントの前処理
             function submitFormFn() {
-                alert($(form1)[0].submitButton.value);
-
                 if ($(form1)[0].HeadrCategory.value == "") {
                     alert("事象種別が入力されていません。");
                     return false;//呼び出し側へ戻ってから処理を中止(post注止)
@@ -380,7 +385,8 @@
                 }
                 /////////////////////////////////////////
                 //その他、住所、キロポス、概要、内容、発生時分などをチェックする
-                ////////////////////////////////////////
+				////////////////////////////////////////
+				//親画面の事象リストに当該事象を追加
                 //参考：親画面（子画面の呼び出し元）にデータを渡す方法 JQueryの使い方に若干のKwhwあり、window.opener.$(…
                 window.opener.$('#ulListEvnt-1').append('<a><li class="evntList" id="' + "取りあえず" + '" onClick=alert("別ウィンドウで事象を表示")>' + "事象ファイルＩＤ" + '</li></a>')
                 //↑は、ソケットでやる方法もあるが、こっちのほうが簡単	
@@ -392,8 +398,6 @@
                     alert("Now programming");
                     return false;
                 }
-                //alert("ちょっと待った！");
-                //return false;
                 return true;//呼び出し側へ戻ってから処理を続行(post実行)
             }
 
@@ -545,11 +549,6 @@
 
             (function () {
                 'use strict';
-                //URLから緯度経度文字列を取得
-                var urlQueryStr = location.search.substring(1).split('&');//substring(1)で"?"を除去,split('&')で文字列分割
-
-                $('#id_HeadrLat')[0].value = urlQueryStr[0];
-                $('#id_HeadrLng')[0].value = urlQueryStr[1];
                 // 今日の日付データを変数todayに格納
                 var this_day, this_month, this_year, today;
                 today = new Date();
@@ -569,9 +568,17 @@
                 optionSetNumeric(0, 23, 'id_Itm1Hour', 12);
                 optionSetNumeric(0, 59, 'id_Itm1Minute', 30);
                 optionSetString(['9', '27'], 'id_HeadrRoute', '9');
-                optionSetString(['舞鶴市', '綾部市', '福知山市', '京丹波町'], 'id_HeadrCity', '福知山市');
+                optionSetString(['舞鶴市', '綾部市', '福知山市', '京丹波町'],'id_HeadrCity','福知山市');
                 optionSetString(['上り', '下り', '上下', '中央', '路肩', '歩道', '側道', 'その他'], 'id_HeadrLane', '上り');
-            })();
+
+                //URLに引っ付いてきたクエリ文字列（パラメータ）から緯度経度と住所文字列を取得
+                var urlQueryStr = location.search.substring(1).split('&');//substring(1)で、先頭の文字"?"を除去後、split('&')で文字列分割
+				//パラメータは&で区切られて、４つある。
+                $('#id_HeadrLat')[0].value = urlQueryStr[0];
+				$('#id_HeadrLng')[0].value = urlQueryStr[1];
+				$('#id_HeadrCity')[0].value = decodeURI(urlQueryStr[2]);//%(パーセント)エンコードされているためデコードする。
+				$('#id_HeadrAddres')[0].value = decodeURI(urlQueryStr[3]);
+			})();
         </script>
     </body>
 
