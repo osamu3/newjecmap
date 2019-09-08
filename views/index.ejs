@@ -18,18 +18,29 @@
 						<table>
 							<tr>
 								<td id="currentLatTag">35.29749372923729</td>
-								<td><input type="button" value="緯度コピー" onclick="tagTextToClipboard('currentLat');" /></td>
+								<td><input type="button" value="緯度コピー" onclick="tagTextToClipboard('currentLat');" style="font-size: 10pt"/></td>
 							</tr>
 							<tr>
 								<td id="currentLngTag">135.130990740549</td>
-								<td><input type="button" value="緯度コピー" onclick="tagTextToClipboard('currentLng');" /></td>
+								<td><input type="button" value="緯度コピー" onclick="tagTextToClipboard('currentLng');" style="font-size: 10pt"/></td>
 							</tr>
 						</table>
-						<table style="font-size: 8pt; ">
+						<table style="font-size: 11pt" >
 							<tr>
-								<td width="100" bgcolor="#80ffff">住所:</td>
-								<td id="city" width="100" bgcolor="#80ffff"></td>
-								<td id="address" width="300" bgcolor="#80ffff"></td>
+								<td width="47" bgcolor="#eeeeee">住所:</td>
+								<td id="city" width="100" bgcolor="#eeeeee"></td>
+								<td id="address" width="160" bgcolor="#eeeeee"></td>
+							</tr>
+						</table>
+						<table style="font-size: 11pt" >
+							<tr>
+								<td width="80" bgcolor="#eeeeee"></td>
+								<td width="40" bgcolor="#eeeeee">国道</td>
+								<td id="route" width="30" bgcolor="#eeeeee"></td>
+								<td width="20" bgcolor="#eeeeee">号</td>
+								<td id="kp" width="40" bgcolor="#eeeeee"></td>
+								<td width="20" bgcolor="#eeeeee">KP</td>
+								<td width="48" bgcolor="#eeeeee"></td>
 							</tr>
 						</table>
 					</div>
@@ -177,6 +188,8 @@
 		<script src="/javascripts/initializeSocketIO.js"></script>
 		<script src="/javascripts/initializeResizableCanvas.js"></script>
 		<script src="/javascripts/myLatLngLst.js"></script>
+		<script src="/javascripts/R9Kp100mPich.js"></script>
+		<script src="/javascripts/R27Kp100mPich.js"></script>
 		<script src="/javascripts/initializeKPListItem.js"></script>
 		<script src="/javascripts/clickFunction.js"></script>
 	</body>

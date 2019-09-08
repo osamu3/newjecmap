@@ -23,7 +23,9 @@ function listClick(elm) {
 		icon: ArrowIcon
 	});
 	ArrowMarker.setPosition(latLng);
-	latLng2AddressFn(latLng);//緯度経度から住所を求め、画面(住所タブ)に表示
+	latLng2AddressFn(latLng);//緯度経度から住所を求め、画面(住所タグ)に表示
+	//一番近いkpを求め、その号線番号とKPを画面(KPタグ他)に表表示
+	setNearKp(LatLngLst[elm.id].latlng.lat, LatLngLst[elm.id].latlng.lng);//関数内で画面表示変更を行っていることに注意
 }
 
 //地図を右クリック時に発火、クリック位置へ移動
@@ -39,8 +41,48 @@ function mapClick2PanEventFn(e) {
 		icon: ArrowIcon
 	});
 	ArrowMarker.setPosition(latLng);
-	latLng2AddressFn(latLng);//緯度経度から住所を求め、画面(住所タブ)に表示
+	//緯度経度から住所を求め、画面(住所タブ)に表示
+	latLng2AddressFn(latLng);
+	//一番近いkpを求め、その号線番号とKPをトップ画面に表示
+	setNearKp(e.latLng.lat(), e.latLng.lng());//関数内で画面表示変更を行っていることに注意
 }
+
+//一番近いkpを求め、その号線番号とKPをトップ画面に表示
+function setNearKp(lat, lng) {
+	let nearRangeXY;//クリック位置とKp位置の離隔(緯度経度)
+	let nearKp; //最も近いkp
+	let nearKpRute;//最も近い号線
+	
+	let nearRangeXYTmp = 99999;
+	let tmpRng;
+
+	Object.keys(R9Kp100mPich).forEach(function(key) {
+		tmpRng = Math.sqrt(Math.pow(lat - R9Kp100mPich[key].lat, 2) + Math.pow(lng - R9Kp100mPich[key].lng, 2));
+		if (tmpRng < nearRangeXYTmp) {
+			nearRangeXYTmp = tmpRng;
+			nearKp =key;
+			nearKpRute=9;
+		}		
+	});
+	Object.keys(R27Kp100mPich).forEach(function(key) {
+		tmpRng = Math.sqrt(Math.pow(lat - R27Kp100mPich[key].lat, 2) + Math.pow(lng - R27Kp100mPich[key].lng, 2));
+		if (tmpRng < nearRangeXYTmp) {
+			nearRangeXYTmp = tmpRng;
+			nearKp =key;
+			nearKpRute=27;
+		}		
+	});
+	//alert("kp:" + nearKp + " Route:" + nearKpRute + " 距離:" + nearRangeXYTmp);
+
+	if (nearRangeXYTmp < 0.00055) {//クリック位置と最寄りの100mピッチKpとの離隔が約60m以内であれば
+		$('#route').html(nearKpRute);
+		$('#kp').html(nearKp);
+	} else {
+		$('#route').html('？');
+		$('#kp').html('？');	
+	}
+}
+
 
 //緯度経度住所に変換後、画面の住所タブに書き込む。戻り値なし
 function latLng2AddressFn(latLng) {
@@ -101,7 +143,7 @@ function svpCameraRotaitionEventFn() {
 	ArrowIcon.rotation = Svp.pov.heading;
 	//現在のマーカの緯度経度を取得
 	latLng = ArrowMarker.getPosition();
-	//一旦矢印マーカーを削除後新たにセット
+	//一旦矢印マーカー（ペグマン）を削除後新たにセット
 	ArrowMarker.setMap(null);
 	ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表すマーカー
 		map: MyMap,
@@ -118,6 +160,15 @@ function svpCameraMoveEventFn() {
 	let latLng = new google.maps.LatLng(Svp.getLocation().latLng.lat(), Svp.getLocation().latLng.lng());
 	//住所を表示
 	latLng2AddressFn(latLng);
+	//最寄りの100mピッチKpと号線を表示
+	setNearKp(latLng.lat(), latLng.lng())
+	//一旦矢印マーカー（ペグマン）を削除後新たにセット
+	ArrowMarker.setMap(null);
+	ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表すマーカー
+		map: MyMap,
+		icon: ArrowIcon
+	});
+	ArrowMarker.setPosition(latLng);//緯度経度をセット
 }
 
 function openEvntDtUploadForm() {
