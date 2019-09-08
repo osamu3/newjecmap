@@ -171,8 +171,11 @@ function svpCameraMoveEventFn() {
 	ArrowMarker.setPosition(latLng);//緯度経度をセット
 }
 
+//事象登録ボタンクリックで呼び出し
 function openEvntDtUploadForm() {
-	var queryStr = '?' + $('#currentLatTag')[0].innerText + '&' + $('#currentLngTag')[0].innerText+'&'+$('#city')[0].innerText+'&'+$('#address')[0].innerText;
+	var queryStr = '?' + $('#currentLatTag')[0].innerText + '&' +
+		$('#currentLngTag')[0].innerText + '&' + $('#city')[0].innerText + '&' + $('#address')[0].innerText +'&' +
+		$('#route')[0].innerText + '&' + $('#kp')[0].innerText;
 	//アップロード用の子フォームを表示、ここで子フォームの幅や高さ、ツールバーの表示などを指定していることに注意
 	UpLoadWin = window.open('/evntDtUploadForm' + queryStr, 'evntDtUploadForm', 'width=600, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
 
