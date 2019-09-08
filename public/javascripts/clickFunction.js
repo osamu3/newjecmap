@@ -359,6 +359,9 @@ function dropDownMnClick(trget) {
 	$(trget).removeClass('tab-pane fade').addClass('tab-pane fade active show');
 }
 
-function callChildWinFn(dt) {
-	alert("呼び出しがありました：引数は "+dt+"です。[dt]をオールイベントリストに追加します")
+function callChildWinFn(cmd) {
+	if (cmd == 'ReLoadAllEventData') {//子画面で事象登録完了時に呼び出される。
+		// 現在表示されているページをリロードすることで、追加された事象データを含んだ全データが読み込まれる。
+		location.reload(true)//[true]=WEBサーバのデータからリロード、[false]=キャッシュからリロード		
+	}
 }
