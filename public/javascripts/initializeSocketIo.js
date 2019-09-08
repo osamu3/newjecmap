@@ -17,31 +17,31 @@ $(function () {
 			itm = itm.replace(/\\/g, "\\\\");//サーバー側のデータ中の画像ファイルへのパスに"\"が含まれており、JSON.parseでエラーになるため
 			itm = JSON.parse(itm);//JSオブジェクト配列に変換
 			AllEventData.push(itm);//グローバル変数(JsObj)にも保存しておく→他所で参照することあり。 
-			linkStr = '[' + itm.HeadrCategory + ']' + itm.HeadrYear + '/' + itm.HeadrMonth + '/' + itm.HeadrDay + ' ' + itm.HeadrHour + ':' + itm.HeadrMinute + ' 地先:' + itm.HeadrCity + itm.HeadrAddres;
+			linkStr = '[' + itm.HeadrCategory + ']' + itm.HeadrYear + '/' + itm.HeadrMonth + '/' + itm.HeadrDay + ' ' + itm.HeadrHour + ':' + itm.HeadrMinute + '  ' + itm.HeadrCity + itm.HeadrAddres;
 
 			//①全ての事象に登録
-			$('#ulListEvnt-0').append('<a href="#"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+			$('#ulListEvnt-0').append('<a href="#"  style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
 			//②カテゴリー落下物に登録
 			if (itm.HeadrCategory == '落下物')
-				$('#ulListEvnt-1').append('<a href="#"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+				$('#ulListEvnt-1').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
 			//③カテゴリー事故に登録
 			if (itm.HeadrCategory == '事故')
-				$('#ulListEvnt-2').append('<a href="#"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+				$('#ulListEvnt-2').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
 			//④カテゴリー災害に登録
 			if (itm.HeadrCategory == '災害')
-				$('#ulListEvnt-3').append('<a href="#"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+				$('#ulListEvnt-3').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
 			//⑤カテゴリー動物死骸に登録
 			if (itm.HeadrCategory == '動物死骸')
-				$('#ulListEvnt-4').append('<a href="#"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+				$('#ulListEvnt-4').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
 			//⑥カテゴリー苦情に登録
 			if (itm.HeadrCategory == '苦情')
-				$('#ulListEvnt-5').append('<a href="#"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+				$('#ulListEvnt-5').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
 			//⑦カテゴリー通報に登録
 			if (itm.HeadrCategory == '通報')
-				$('#ulListEvnt-6').append('<a href="#"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+				$('#ulListEvnt-6').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
 			//⑧カテゴリーその他に登録
 			if (itm.HeadrCategory == 'その他')
-				$('#ulListEvnt-7').append('<a href="#"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+				$('#ulListEvnt-7').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
 		}
 	});
 

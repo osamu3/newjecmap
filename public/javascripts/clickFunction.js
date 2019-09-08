@@ -359,3 +359,6 @@ function dropDownMnClick(trget) {
 	$(trget).removeClass('tab-pane fade').addClass('tab-pane fade active show');
 }
 
+function callChildWinFn(dt) {
+	alert("呼び出しがありました：引数は "+dt+"です。[dt]をオールイベントリストに追加します")
+}

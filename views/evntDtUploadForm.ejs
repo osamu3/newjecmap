@@ -16,7 +16,7 @@
 		<button type="button" onclick = "function tmp(){$('#id_HeadrCity')[0].value='舞鶴市'} tmp();">変更</button>
 		-->
 
-        <form action="/imgUploadForm" method="post" enctype="multipart/form-data" name="form1">
+        <form action="/evntDtUploadForm" method="post" enctype="multipart/form-data" name="form1">
             <table border="0" rules="groups" id="EventTblHeadr" cellpadding="0" cellspacing="0" width="100%">
                 <thead>
                     <tr>
@@ -285,12 +285,10 @@
 			function dispImgBtnClck(elmNm, elmId) {
                 if (elmId > 0 && elmId < 10) {//elmIdは、1以上9以下の筈、画像は９個まで
                     //elmIdは、クライアント⇔サーバー間の通信で利用し、どのボタンクリックイベントの応答かを判断する。
-
-                    //グローバル変数でクリックされた要素番号を保持しておき、ソケット受信時にその番号を利用する。
-                    //RequestImgShowTagId = elmId;//こんな事せずに、ソケット受信時のパラメータに、どのリクエストに対する回答を入れて返すのが筋	
                     //ソケットでサーバーへ画像送信依頼
                     socket.emit('CC2S:sendRequestImgData', elmNm, elmId); //elmId(クリックされた要素番号)は、サーバからの返信時の引数に付加されて戻ってくる。
-					//返信は、[soket]の[sendBase64PhtData]で
+					//返信は、[soket]の[sendBase64PhtData]で、 elmIdも引数として、サーバーからクライアントに渡される。
+
 				}
             }
 
@@ -367,7 +365,8 @@
 
             //アップロードイベントの前処理
             function submitFormFn() {
-                if ($(form1)[0].HeadrCategory.value == "") {
+				let eventCategory = $(form1)[0].HeadrCategory.value;//イベントの種別（事故、落下物、死骸処理。。。）
+                if ( eventCategory == "") {
                     alert("事象種別が入力されていません。");
                     return false;//呼び出し側へ戻ってから処理を中止(post注止)
                 }
@@ -386,19 +385,59 @@
                 /////////////////////////////////////////
                 //その他、住所、キロポス、概要、内容、発生時分などをチェックする
 				////////////////////////////////////////
+
 				//親画面の事象リストに当該事象を追加
                 //参考：親画面（子画面の呼び出し元）にデータを渡す方法 JQueryの使い方に若干のKwhwあり、window.opener.$(…
-                window.opener.$('#ulListEvnt-1').append('<a><li class="evntList" id="' + "取りあえず" + '" onClick=alert("別ウィンドウで事象を表示")>' + "事象ファイルＩＤ" + '</li></a>')
-                //↑は、ソケットでやる方法もあるが、こっちのほうが簡単	
-                //送信データをユニーク化するため、送信ボタン(事象登録実行)のタイトルを、現在の時分秒ミリ秒にして、ポストする。
-                if ($(form1)[0].eventId.value == 0) $(form1)[0].eventId.value = Date.now();//value!=0 then 編集上書きモード
 
+				//送信データをユニーク化するため、現在の時分秒ミリ秒にして、ポストする。
+				let eventUId = Date.now();
+				let linkStr = '['+eventCategory+']'+$("#id_HeadrYear").val()+'/'+$("#id_HeadrMonth").val()+'/'+$("#id_HeadrDay").val();
+				linkStr +=' '+$('#id_HeadrHour').val()+':'+$('#id_HeadrMinute').val()+' '+$('#id_HeadrCity').val()+$('#id_HeadrAddres').val();
+
+				//①全ての事象に登録
+				window.opener.$('#ulListEvnt-0').append('<a href="#"style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr+ '</li></a>')
+				switch( eventCategory ) {
+					//②カテゴリー落下物に登録
+					case '落下物':
+						window.opener.$('#ulListEvnt-1').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+						break;
+					//③カテゴリー事故に登録
+					case '事故':
+						window.opener.$('#ulListEvnt-2').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+					//④カテゴリー災害に登録
+					case '災害':
+						window.opener.$('#ulListEvnt-3').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+						break;
+					//⑤カテゴリー動物死骸に登録
+					case '動物死骸':
+						window.opener.$('#ulListEvnt-4').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+						break;
+					//⑥カテゴリー苦情に登録
+					case '苦情':
+						window.opener.$('#ulListEvnt-5').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+						break;
+					//⑦カテゴリー通報に登録
+					case '通報':
+						window.opener.$('#ulListEvnt-6').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+						break;
+					//⑧カテゴリーその他に登録
+					case 'その他':
+						window.opener.$('#ulListEvnt-7').append('<a href="#"   style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
+						break;
+				}
+
+				//送信ボタン(事象登録実行)のタイトルを、現在の時分秒ミリ秒にする。
+				if ($(form1)[0].eventId.value == 0) { //もし、『value !=0 ０(ゼロ)でなかったら』 編集上書きモードであるということ、現在使用していない
+					$(form1)[0].eventId.value = eventUId;
+				}
                 //ボタンのタイトルが事象登録【実行】でなければ
-                if ($(form1)[0].submitButton.value != "事象登録【実行】") {
+                if ($(form1)[0].submitButton.value == "事象登録【実行】") {
+					window.opener.callChildWinFn(linkStr);
+					return true;//呼び出し側へ戻ってから処理を続行(post実行)
+				}else{
                     alert("Now programming");
                     return false;
                 }
-                return true;//呼び出し側へ戻ってから処理を続行(post実行)
             }
 
             function addImgBtn() {//添付画像登録ボタンを追加
@@ -547,7 +586,7 @@
                 }
             };
 
-            (function () {
+            (function () {//画面表示時の、初期値設定処理
                 'use strict';
                 // 今日の日付データを変数todayに格納
                 var this_day, this_month, this_year, today;

@@ -2,8 +2,8 @@
 /* #resizable h3 { text-align: center; margin: 0; } */
 :root {/*変数宣言 */
   --windowHight: calc(100vh - 1.0em);  /*微妙に調整 */
-	--mapWidth:75vw;
-	--sideMenuWidth:25vw;
+	--mapWidth:73vw;
+	--sideMenuWidth:27vw;
 	--sectionHight:calc(100vh - 22px); /*微妙に調整 */
 }
 
