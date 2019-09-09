@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', indexRouter);
 // GETリクエストでの"/"へのアクセス処理　/views/index.ejsを表示する。拡張子（.ejs）は省略されていることに注意。
 app.get("/", function (req, res, next) {
-	console.log('Address='+req.connection.remoteAddress);
+	console.log('ルートへのGetリクエストあり。Address='+req.connection.remoteAddress);
 	//console.log('req.ip=' + req.ip);
 	res.render("index", {});
 });
