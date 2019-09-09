@@ -29,15 +29,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" colspan="7" bgcolor="#ff7075">
-                            <input type="submit" id="id_submitButton" name="submitButton" value="事象登録【実行】"
+                        <td  colspan="2" bgcolor="#ff7075">
+                        </td>
+							<td  colspan="2" bgcolor="#ff7075">
+                            <input type="submit" id="id_submitButton" name="submitButton" value="事象【登録】"
 								onclick="return submitFormFn();">
                         </td>
-                    </tr>
-                    <tr>
-                        <td align="left" colspan="7" bgcolor="#ff7075">
-                            <input type="button" value="事象削除【実行】"  onClick="delThisDataFn()">
+                        <td  colspan="1" bgcolor="#ff7075">
+                            <input type="button" value="事象【削除】"  onclick="delThisDataFn();">
                         </td>
+                        <td  colspan="1" bgcolor="#ff7075">
+                            <input type="button" value="登録せずに終了"  onclick="window.close();">
+						</td>
                     </tr>
                     <tr>
                         <td td height="10"></td>
@@ -45,37 +48,37 @@
                     <tr>
                         <td align="center" colspan="7" style="background-color:#ffe0a0; font-size:14px;">
                             <input type="radio" name="HeadrCategory" id="id_HdrCtgryRakkabutu"
-                                onChange="setCategory('#id_HeadrTarget')" value="落下物">落下物
+                                onchange="setCategory('#id_HeadrTarget')" value="落下物">落下物
                             <input type="radio" name="HeadrCategory" id="id_HdrCtgryJiko"
-                                onChange="setCategory('#id_HeadrTarget')" value="事故">事故
+                                onchange="setCategory('#id_HeadrTarget')" value="事故">事故
                             <input type="radio" name="HeadrCategory" id="id_HdrCtgrySaigai"
-                                onChange="setCategory('#id_HeadrTarget')" value="災害">災害
+                                onchange="setCategory('#id_HeadrTarget')" value="災害">災害
                             <input type="radio" name="HeadrCategory" id="id_HdrCtgryShigai"
-                                onChange="setCategory('#id_HeadrTarget')" value="動物死骸">動物死骸
+                                onchange="setCategory('#id_HeadrTarget')" value="動物死骸">動物死骸
                             <input type="radio" name="HeadrCategory" id="id_HdrCtgryKujou"
-                                onChange="setCategory('#id_HeadrTarget')" value="苦情">苦情
+                                onchange="setCategory('#id_HeadrTarget')" value="苦情">苦情
                             <input type="radio" name="HeadrCategory" id="id_HdrCtgryTuuhou"
-                                onChange="setCategory('#id_HeadrTarget')" value="通報">通報
+                                onchange="setCategory('#id_HeadrTarget')" value="通報">通報
                             <input type="radio" name="HeadrCategory" id="id_HdrCtgrySonota"
-                                onChange="setCategory('#id_HeadrTarget')" value="その他">その他
+                                onchange="setCategory('#id_HeadrTarget')" value="その他">その他
                         </td>
                     </tr>
                     <tr>
                         <td td height="10"></td>
                     </tr>
-
+					<tr>
                     <td>&nbsp;&nbsp;&nbsp;</td>
                     <td align="center">
                         <select name="HeadrTarget" id="id_HeadrTarget"
                             style="background-color:#ffcc66; font-size : 15px;">
-                            <option value="" disabled selected style='display:none;'>(対象案件を選択)</option>
+                            <option value="" disabled selected style="display:none;">(対象案件を選択)</option>
                         </select>
                     </td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td align="center">
                         <select name="HeadrAttender" id="id_HeadrAttender"
                             style="background-color:#88ccff; font-size : 15px;">
-                            <option value="" disabled selected style='display:none;'>(処理対応者を選択)</option>
+                            <option value="" disabled selected style="display:none;">(処理対応者を選択)</option>
                             <option value="維持業者">維持業者</option>
                             <option value="出張所">出張所</option>
                             <option value="事務所">事務所</option>
@@ -85,7 +88,7 @@
                             <option value="その他">その他</option>
                         </select>
                     </td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>&nbsp;</td>
                     <td align="center">
                         <select name="HeadrInformer" id="id_HeadrInformer"
                             style="background-color:#88ccff; font-size : 15px;">
@@ -104,23 +107,20 @@
                             <option value="工事業者">工事業者</option>
                             <option value="その他">その他</option>
                         </select>
-                    </td>
-                    <td>&nbsp;&nbsp;&nbsp;</td>
-                    <tr>
-                        <td td height="5"></td>
-                    </tr>
+					</td>
+					</tr>
                 </thead>
             </table>
             <table border="0" rules="groups" id="EventTblBody">
                 <thead>
                     <tr bgcolor="#cbdcee" id="tr_Head">
                         <td colspan="1"><b>受信日時：</b> </td>
-                        <td><select name="HeadrYear" id="id_HeadrYear"></select>年</td>
-                        <td><select name="HeadrMonth" id="id_HeadrMonth"></select>月</td>
-                        <td><select name="HeadrDay" id="id_HeadrDay"></select>日</td>
-                        <td><select name="HeadrHour" id="id_HeadrHour"></select>時</td>
-                        <td><select name="HeadrMinute" id="id_HeadrMinute"></select>分</td>
-                        <td>R<select name="HeadrRoute" id="id_HeadrRoute"></select></td>
+                        <td><select name="HeadrYear" id="id_HeadrYear" onchange="selectElmValChng(this)"></select>年</td>
+                        <td><select name="HeadrMonth" id="id_HeadrMonth" onchange="selectElmValChng(this)"></select>月</td>
+                        <td><select name="HeadrDay" id="id_HeadrDay" onchange="selectElmValChng(this)"></select>日</td>
+                        <td><select name="HeadrHour" id="id_HeadrHour" onchange="selectElmValChng(this)"></select>時</td>
+                        <td><select name="HeadrMinute" id="id_HeadrMinute" onchange="selectElmValChng(this)"></select>分</td>
+                        <td>R<select name="HeadrRoute" id="id_HeadrRoute" onchange="selectElmValChng(this)"></select></td>
                     </tr>
                     <tr bgcolor="#cbdcee">
                         <td><b>発生場所：</b></td>
@@ -131,7 +131,7 @@
                     </tr>
                     <tr bgcolor="#cbdcee">
                         <td align="right">地先</td>
-                        <td colspan="4"><input type="text" id="id_HeadrChisaki" name="HeadrChisaki" size="38" value=""
+                        <td colspan="4"><input type="text" id="id_HeadrChisaki" name="HeadrChisaki" size="45" value=""
                                 placeholder="(目標物を入力)"></td>
                         <td><select name="HeadrLane" id="id_HeadrLane"></select></td>
                         <td></td>
@@ -144,14 +144,23 @@
                         <td colspan="2"><input type="text" id="id_HeadrLat" name="HeadrLat" style="font-size:8px;"
                                 readonly="readonly"></td>
                     </tr>
-                    <tr bgcolor="#cbdcee">
+					<tr bgcolor="#cbdcee">
                         <td colspan="1" style="font-size:12px">経度</td>
                         <td colspan="2"><input type="text" id="id_HeadrLng" name="HeadrLng" style="font-size:8px;"
                                 readonly="readonly"></td>
                     </tr>
                 </thead>
             </table>
-            <table border="0" rules="groups" id="EventTblHistory">
+			<table>
+				<tr bgcolor="#ffdcee">
+					<td align="center" rowspan="2"><b>連絡事項：</b></td>
+					<td rowspan="2"><textarea id="id_HeadrOthers" name="HeadrOthers" cols="66" rows="3"
+						wrap="hard" value="" placeholder="(通報者連絡先等)"></textarea>
+					</td>
+			</tr>
+		</table>
+
+			<table border="0" rules="groups" id="EventTblHistory">
                 <tr bgcolor="#dbf0ce">
                     <td class="historyCls"><b>経　　過： </b></td>
                     <td><select name="HstryYear" id="id_Itm1Year"></select>年</td>
@@ -431,7 +440,7 @@
 					$(form1)[0].eventId.value = eventUId;
 				}
                 //ボタンのタイトルが事象登録【実行】でなければ
-                if ($(form1)[0].submitButton.value == "事象登録【実行】") {
+                if ($(form1)[0].submitButton.value == "事象【登録】") {
 					window.opener.callChildWinFn('ReLoadAllEventData');//呼び出す関数はclickFunction.js の最後の方に書いてある。
 					return true;//呼び出し側へ戻ってから処理を続行(post実行)
 				}else{
@@ -620,6 +629,25 @@
 				$('#id_HeadrRoute')[0].value = urlQueryStr[4];
 				$('#id_HeadrKp')[0].value = urlQueryStr[5];
 			})();
+			function selectElmValChng(elm){
+				switch (elm.id){
+					case 'id_HeadrYear':
+						$('#id_Itm1Year')[0].value = elm.value;
+						break;
+					case  'id_HeadrMonth':
+						$('#id_Itm1Month')[0].value = elm.value;
+						break;
+					case  'id_HeadrDay':
+						$('#id_Itm1Day')[0].value = elm.value;
+						break;
+					case  'id_HeadrHour':
+						$('#id_Itm1Hour')[0].value =  elm.value;
+						break;
+					case  'id_HeadrMinute':
+						$('#id_Itm1Minute')[0].value = elm.value;
+						break;
+				} 
+			}
         </script>
     </body>
 

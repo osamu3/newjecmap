@@ -209,7 +209,7 @@ function openEvntDtUploadForm() {
 function eventListClick(elm) {
 	if (EventEditWindow != null) {//アップロード用の画面定義が一度でもされており、且つ
 		if (!EventEditWindow.closed) {//アップロード用が閉じていなければ
-			alert("アップロード用の画面を閉じて再実行して下さい。");
+			alert("既に開いている事象確認画面を閉じて再実行して下さい。");
 			return false;
 		}
 	}
@@ -291,6 +291,9 @@ function eventListClick(elm) {
 				$(EventEditWindow.document).find('#id_HeadrLat')[0].value = itm.HeadrLat;
 				$(EventEditWindow.document).find('#id_HeadrLng')[0].value = itm.HeadrLng;
 
+				//追加した、連絡事項欄のしょり	id_HeadrOthers
+				if(itm.HeadrOthers != undefined)
+					$(EventEditWindow.document).find('#id_HeadrOthers')[0].value = itm.HeadrOthers;
 
 				if (!Array.isArray(itm.HstryYear)) {//配列型でなければ、（※複数の履歴がある場合は、配列型になる）
 					$(EventEditWindow.document).find('#id_Itm1Year')[0].value = itm.HstryYear;
@@ -359,6 +362,7 @@ function dropDownMnClick(trget) {
 	$(trget).removeClass('tab-pane fade').addClass('tab-pane fade active show');
 }
 
+//新規事象登録時、親画面をリロードすることなく、新規登録事象がリストに追加され、且つ、アイコンを地図上に表示したい。
 function callChildWinFn(cmd) {
 	if (cmd == 'ReLoadAllEventData') {//子画面で事象登録完了時に呼び出される。
 		// 現在表示されているページをリロードすることで、追加された事象データを含んだ全データが読み込まれる。
