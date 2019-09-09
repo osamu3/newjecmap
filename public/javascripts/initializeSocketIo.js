@@ -3,7 +3,7 @@ $(function () {
 	/////////////////////////////////////////////////
 	//サーバーにある全てのイベントファイルのデータ送信要求
 	/////////////////////////////////////////////////
-	MySocketIo.emit('C2S:sendRequestEventFilesData', 'データ送信要望');
+	MySocketIo.emit('C2S:sendRequestEventFilesData', 'データ送信要求');
 
 	//==========socketIO(サーバーからメッセージが届いた時に発火）=========================
 	//MySocketIo.on('S2C:sendAllEventData', function (data) {
