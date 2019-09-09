@@ -23,12 +23,18 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 //ルータを使ったルートへのアクセス処理（index.ejsを返す？
-var indexRouter = require('./routes/index');//".ejs"は省略されている？
-app.use('/', indexRouter);
+//var indexRouter = require('./routes/index');//".ejs"は省略されている？
+//app.use('/', indexRouter);
 // GETリクエストでの"/"へのアクセス処理　/views/index.ejsを表示する。拡張子（.ejs）は省略されていることに注意。
-//app.get("/", function (req, res, next) {
-//	res.render("index", {});
-//});
+app.get("/", function (req, res, next) {
+	console.log('Address-'+req.connection.remoteAddress);
+	
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	console.log('ip=' + ip);
+	console.log('req.ip=' + req.ip);
+	console.log('req.ips'+ req.ips);
+	res.render("index", {});
+});
 
 // "/imgUplodForm"へのGETリクエストで/views/imgUpLoadForm.ejsを表示する。拡張子（.ejs）は省略されていることに注意。
 app.get("/evntDtUploadForm", function (req, res, next) {
