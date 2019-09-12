@@ -18,6 +18,13 @@ $(function () {
 			itm = JSON.parse(itm);//JSオブジェクト配列に変換
 			AllEventData.push(itm);//グローバル変数(JsObj)にも保存しておく→他所で参照することあり。 
 			linkStr = '[' + itm.HeadrCategory + ']' + itm.HeadrYear + '/' + itm.HeadrMonth + '/' + itm.HeadrDay + ' ' + itm.HeadrHour + ':' + itm.HeadrMinute + '  ' + itm.HeadrCity + itm.HeadrAddres;
+			//事象リストのタイトルを見やすく２文字にする。
+			linkStr = linkStr.replace(/動物死骸/, '死骸');
+			linkStr = linkStr.replace(/落下物/, '落物');
+
+			//FinishedFlgが定義してあれば、
+			if (itm.FinishedFlg) linkStr = '[完]' + linkStr;
+			else linkStr = '[未]'+linkStr
 
 			//①全ての事象に登録
 			$('#ulListEvnt-0').append('<a href="#"  style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + itm.eventId + '" onClick=eventListClick(this)>' + linkStr + '</li></a>');
