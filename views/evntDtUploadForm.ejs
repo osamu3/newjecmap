@@ -182,7 +182,9 @@
     	                    onclick="addHistoryCls()"></td>
 					<td colspan="3" align="right"></td>
 					<td colspan="3" align="right">
-						<input type="checkbox" name="FinishedFlg" id="id_FinishedFlg" value="FinishedFlgVal" onclick="changeCheckBxColor(this)">処理完了</td>
+						<label>
+							<input type="checkbox" name="FinishedFlg" id="id_FinishedFlg" value="UnFinished" onclick="changeCheckBxColor(this)">【未】処理&nbsp;</label>
+					</td>
 				</tr>
             </table>
             <table border="0" rules="groups" id="EventTblAttachedPhoto">
@@ -254,7 +256,11 @@
         <script>
             var socket = io.connect();
             var AllEventData = [];
-				
+			
+			function alt(){
+				alert('きたきた');
+			}
+
             $(function () {
 				//サーバーへ全てのイベントファイルのデータ送信を依頼
 				//alert("ここは何をするところ");
@@ -279,7 +285,7 @@
                 });
 
 				//処理完了チェックボックスの色を変えるためだけの関数(インラインのstyle…では色を変えれないため)
-			changeCheckBxColor($('#id_FinishedFlg')[0]);
+				changeCheckBxColor($('#id_FinishedFlg')[0]);
 				
                 //受信
                 //socket.on("S2CC:sendAllEventData", function (allEvntDt) {
@@ -294,7 +300,6 @@
                 //socket.on("S2CC:ErrNoSuchFile", function (errStr) {
                  //   alert("写真(" + errStr + ")は、サーバーに登録されていません。");
                 //});
-
             });
 			
 			function dispImgBtnClck(elmNm, elmId) {
@@ -409,6 +414,7 @@
 				let linkStr = '['+eventCategory+']'+$("#id_HeadrYear").val()+'/'+$("#id_HeadrMonth").val()+'/'+$("#id_HeadrDay").val();
 				linkStr +=' '+$('#id_HeadrHour').val()+':'+$('#id_HeadrMinute').val()+' '+$('#id_HeadrCity').val()+$('#id_HeadrAddres').val();
 
+				//親画面（この画面を開いた画面=window.opener）
 				//①全ての事象に登録
 				window.opener.$('#ulListEvnt-0').append('<a href="#"style=" list-style: none; margin-left: 0; padding-left: 0em; text-indent: -2.5em; font-size: 10.5pt"><li class="evntList" id="' + eventUId + '" onClick=eventListClick(this)>' + linkStr+ '</li></a>')
 				switch( eventCategory ) {
@@ -664,13 +670,16 @@
 
 			//処理完了チェックボックスの色を変えるためだけの関数
 			function changeCheckBxColor(targetElm){//タグの背景色変更
-				//let targetElm=document.getElementById(targetElmId);
+				//文字列の編集及び装飾に"parentNode(parentElemntでも可)"を使用している所がKnwHw
+				//cf: http://www.searchlight8.com/jquery-form-value-text/
 				if(targetElm.checked == true){
 					targetElm.parentNode.style.backgroundColor = '#F0E68C';//背景色
 					targetElm.parentNode.style.color = '#333333';//文字色
- 				}else{
+					targetElm.parentNode.innerHTML = '<input type="checkbox" name="FinishedFlg" id="id_FinishedFlg" value="Finished" onclick="changeCheckBxColor(this)" checked="checked">処理【完了】';
+				}else{
 					targetElm.parentNode.style.backgroundColor = '#CC28A8';
 					targetElm.parentNode.style.color = '#FFFFFF';
+					targetElm.parentNode.innerHTML = '<input type="checkbox" name="FinishedFlg" id="id_FinishedFlg" value="UnFinished" onclick="changeCheckBxColor(this)">【未】処理&nbsp;';
 				}
 			}
         </script>

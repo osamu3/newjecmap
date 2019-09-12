@@ -295,6 +295,7 @@ function eventListClick(elm) {
 				if(itm.HeadrOthers != undefined)
 					$(EventEditWindow.document).find('#id_HeadrOthers')[0].value = itm.HeadrOthers;
 
+				//経過欄
 				if (!Array.isArray(itm.HstryYear)) {//配列型でなければ、（※複数の履歴がある場合は、配列型になる）
 					$(EventEditWindow.document).find('#id_Itm1Year')[0].value = itm.HstryYear;
 					$(EventEditWindow.document).find('#id_Itm1Month')[0].value = itm.HstryMonth;
@@ -322,6 +323,15 @@ function eventListClick(elm) {
 							$(EventEditWindow.document).find('#id_AddHstrBtn')[0].onclick();//履歴欄を追加するイベント駆動
 					}
 				}
+
+				//処理完了欄があれば、、、※子画面のformからのpost時、checkBoxにチェックが入ってないと時はデータがpostされない
+				if (itm.FinishedFlg) {//false の場合は、post時にチェックされていなかった。
+					//JQeryの便利関数「prop」を利用していることに注意
+					$(EventEditWindow.document).find('#id_FinishedFlg').prop('checked', true);
+					//子画面の、関数を呼び出し、チェックボックスの文字列を『処理【完了】』に変更する。
+					EventEditWindow.changeCheckBxColor($(EventEditWindow.document).find('#id_FinishedFlg')[0]);
+				}
+
 
 				//画像が添付されていれば、ソケットでサーバーへ要求する。
 				//画像添付欄は、９個まで作成済みである。
