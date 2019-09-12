@@ -178,9 +178,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="center" width="200"><input type="button" id="id_AddHstrBtn" value="経過欄追加"
-                            onClick="addHistoryCls()"></td>
-                </tr>
+                    <td colspan="3" align="center" ><input type="button" id="id_AddHstrBtn" value="経過欄追加"
+    	                    onclick="addHistoryCls()"></td>
+					<td colspan="3" align="right"></td>
+					<td colspan="3" align="right">
+						<input type="checkbox" name="FinishedFlg" id="id_FinishedFlg" value="FinishedFlgVal" onclick="changeCheckBxColor(this)">処理完了</td>
+				</tr>
             </table>
             <table border="0" rules="groups" id="EventTblAttachedPhoto">
                 <tr>
@@ -201,7 +204,7 @@
                 </tr>
                 <tr id="id_addImgBtnTr">
                     <td colspan="3" align="center" width="120">
-                        <input type="button" id="id_AddImgBtn" value="添付欄追加" onClick="addImgBtn()">
+                        <input type="button" id="id_AddImgBtn" value="添付欄追加" onclick="addImgBtn()">
                     </td>
                 </tr>
             </table>
@@ -275,6 +278,9 @@
                     });
                 });
 
+				//処理完了チェックボックスの色を変えるためだけの関数(インラインのstyle…では色を変えれないため)
+			changeCheckBxColor($('#id_FinishedFlg')[0]);
+				
                 //受信
                 //socket.on("S2CC:sendAllEventData", function (allEvntDt) {
                  //   AllEventData = [];//一旦データクリア
@@ -491,14 +497,20 @@
             }
 
             function addHistoryCls() {
+				let lastItemNo=$(".historyCls").length ;//履歴の最終行番号をセット
+				let lastItmJqStr ='#id_Itm'+lastItemNo.toString(10);//履歴の最終行の指すJQueryセレクタ文字列の一部 
+				let newItmNo = $(".historyCls").length+ 1;//追加する履歴の行番号をセット
+				let newItmIdStr ='id_Itm'+newItmNo.toString(10);//履歴の最終行の指すID文字列の一部 
 
-                var HistoryAddItmNo = $(".historyCls").length + 1;//現在の最終の経過の番号＋１をセット
-                //経過を一つ増やす
-                var this_day, this_month, this_year, today;
-                today = new Date();
-                this_year = today.getFullYear();
-                this_month = today.getMonth() + 1;
-                this_day = today.getDate();
+				//経過を一つ増やす
+                let newItmDay, newItmMonth, newItmYear,newItmHour,newItmMinute;
+				//alert($('#id_Itm'+historyClsLength+'Year').value);
+
+				newItmYear = Number($(lastItmJqStr+'Year').val());//一つ前の経過の値をセット(文字列→数値型に変換)
+                newItmMonth = Number($(lastItmJqStr+'Month').val());
+				newItmDay = Number($(lastItmJqStr+'Day').val());
+				newItmHour = Number($(lastItmJqStr+'Hour').val());
+				newItmMinute = Number($(lastItmJqStr+'Minute').val());
 
                 // テーブルの要素取得
                 var table = document.getElementById("EventTblHistory");
@@ -510,16 +522,16 @@
                 td1.className = 'historyCls';//追加したセルにクラス名を付加
 
                 // 挿入するHTML文字列作成 半角数値を文字列にする(全角１の文字コード＋Id):Tips
-                var tdStr1 = '<b>経　過' + String.fromCharCode('０'.charCodeAt(0) + HistoryAddItmNo) + '： </b>';
-                //HistoryAddItmNo++; //追加に伴うIdインクリメント
-                var tdStr2 = '<select name="HstryYear" id="id_Itm' + HistoryAddItmNo.toString(10) + 'Year"></select>年',
-                    tdStr3 = '<select name="HstryMonth" id="id_Itm' + HistoryAddItmNo.toString(10) + 'Month"></select>月',
-                    tdStr4 = '<select name="HstryDay" id="id_Itm' + HistoryAddItmNo.toString(10) + 'Day"></select>日',
-                    tdStr5 = '<select name="HstryHour" id="id_Itm' + HistoryAddItmNo.toString(10) + 'Hour"></select>時',
-                    tdStr6 = '<select name="HstryMinute" id="id_Itm' + HistoryAddItmNo.toString(10) + 'Minute"></select>分';
+                var tdStr1 = '<b>経　過' + String.fromCharCode('０'.charCodeAt(0) + newItmNo) + '： </b>';
+                //historyAddItmNo++; //追加に伴うIdインクリメント
+                var tdStr2 = '<select name="HstryYear" id="'  + newItmIdStr + 'Year"></select>年',
+                    tdStr3 = '<select name="HstryMonth" id="'   + newItmIdStr + 'Month"></select>月',
+                    tdStr4 = '<select name="HstryDay" id="'  + newItmIdStr + 'Day"></select>日',
+                    tdStr5 = '<select name="HstryHour" id="'  + newItmIdStr + 'Hour"></select>時',
+                    tdStr6 = '<select name="HstryMinute" id="'  + newItmIdStr + 'Minute"></select>分';
                 // セルへ要素を挿入する
                 td1.innerHTML = tdStr1; td2.innerHTML = tdStr2; td3.innerHTML = tdStr3; td4.innerHTML = tdStr4; td5.innerHTML = tdStr5; td6.innerHTML = tdStr6;
-                //alert(InsertRowBaseId + (HistoryAddItmNo * 2 - 2));
+                //alert(InsertRowBaseId + (addItmNo * 2 - 2));
 
                 // 指定行に２行目挿入　//指定する行は、履歴欄の行数-1を指定
                 var tr2 = table.insertRow($("#EventTblHistory")[0].rows.length - 1);
@@ -529,24 +541,24 @@
                 td7.style = "font-size:15px";
                 td8.setAttribute('colspan', '6');
 
-                var tdStr7 = '内　容', tdStr8 = '<textarea name="HstryContents" id="id_Itm' + HistoryAddItmNo.toString(10) + 'Contents" cols="65" rows="3" wrap="hard" value="" placeholder="(内容を入力)"></textarea>';
+                var tdStr7 = '内　容', tdStr8 = '<textarea name="HstryContents" id="'  + newItmIdStr + 'Contents" cols="65" rows="3" wrap="hard" value="" placeholder="(内容を入力)"></textarea>';
 
                 td7.innerHTML = tdStr7; td8.innerHTML = tdStr8;
 
                 //セレクトタグのオプション(選択項目)をセット
-                optionSetNumeric(2010, this_year, 'id_Itm' + HistoryAddItmNo.toString(10) + 'Year', this_year);
-                optionSetNumeric(1, 12, 'id_Itm' + HistoryAddItmNo.toString(10) + 'Month', this_month);
-                optionSetNumeric(1, 31, 'id_Itm' + HistoryAddItmNo.toString(10) + 'Day', this_day);
-                optionSetNumeric(0, 23, 'id_Itm' + HistoryAddItmNo.toString(10) + 'Hour', 12);
-                optionSetNumeric(0, 59, 'id_Itm' + HistoryAddItmNo.toString(10) + 'Minute', 30);
+				optionSetNumeric(newItmYear, newItmYear+10,newItmIdStr + 'Year', newItmYear);　
+                optionSetNumeric(1, 12, newItmIdStr + 'Month', newItmMonth);
+                optionSetNumeric(1, 31, newItmIdStr + 'Day', newItmDay);
+                optionSetNumeric(0, 23, newItmIdStr + 'Hour', newItmHour);
+                optionSetNumeric(0, 59, newItmIdStr + 'Minute', newItmMinute);
             };
 
-            //セレクトタグオプションセット（スタート数字、終了数字、表示id名、デフォルト数字）
+            //セレクトタグオプションセット（スタート数字、終了数字、表示id名、デフォルトに設定する数字）
             function optionSetNumeric(start, end, tagId, defaultVal) {
                 var optVal, opt;
-                opt = null;
+                opt = "";
                 for (optVal = start; optVal <= end; optVal++) {
-                    if (optVal === defaultVal) {
+                    if (optVal == defaultVal) {//ここに来ないから、selectedが選択されない。
                         opt += "<option value='" + optVal + "' selected>" + optVal + "</option>";
                     } else {
                         opt += "<option value='" + optVal + "'>" + optVal + "</option>";
@@ -555,9 +567,10 @@
                 document.getElementById(tagId).innerHTML = opt;
             };
 
+			//号線や上下、自治体選択のセレクトボックスの値をセット
             function optionSetString(itmArr, tagId, defaultVal) {
                 var optVal, opt;
-                opt = null;
+                opt = "";
                 itmArr.forEach(function (optVal) {
                     if (optVal === defaultVal) {
                         opt += "<option value='" + optVal + "' selected>" + optVal + "</option>";
@@ -598,21 +611,21 @@
             (function () {//画面表示時の、初期値設定処理
                 'use strict';
                 // 今日の日付データを変数todayに格納
-                var this_day, this_month, this_year, today;
+                var today_day, today_month, today_year, today;
                 today = new Date();
-                this_year = today.getFullYear();
-                this_month = today.getMonth() + 1;
-                this_day = today.getDate();
+                today_year = today.getFullYear();//※注意！ 「getYear()」関数は、非推奨
+                today_month = today.getMonth() + 1;//※注意！ 戻り値は、0～11までなのでインクリメント必要
+                today_day = today.getDate();//※注意！ 戻り値は、1～31までなので、インクリメント不要
 
                 //関数設定（スタート数字[必須]、終了数字[必須]、表示id名[省略可能]、デフォルト数字[省略可能]）
-                optionSetNumeric(2010, this_year, 'id_HeadrYear', this_year);
-                optionSetNumeric(1, 12, 'id_HeadrMonth', this_month);
-                optionSetNumeric(1, 31, 'id_HeadrDay', this_day);
+                optionSetNumeric(2010, today_year, 'id_HeadrYear', today_year);
+                optionSetNumeric(1, 12, 'id_HeadrMonth', today_month);
+                optionSetNumeric(1, 31, 'id_HeadrDay', today_day);
                 optionSetNumeric(0, 23, 'id_HeadrHour', 12);
                 optionSetNumeric(0, 59, 'id_HeadrMinute', 30);
-                optionSetNumeric(2010, this_year, 'id_Itm1Year', this_year);
-                optionSetNumeric(1, 12, 'id_Itm1Month', this_month);
-                optionSetNumeric(1, 31, 'id_Itm1Day', this_day);
+                optionSetNumeric(2010, today_year, 'id_Itm1Year', today_year);
+                optionSetNumeric(1, 12, 'id_Itm1Month', today_month);
+                optionSetNumeric(1, 31, 'id_Itm1Day', today_day);
                 optionSetNumeric(0, 23, 'id_Itm1Hour', 12);
                 optionSetNumeric(0, 59, 'id_Itm1Minute', 30);
                 optionSetString(['9', '27'], 'id_HeadrRoute', '9');
@@ -647,6 +660,18 @@
 						$('#id_Itm1Minute')[0].value = elm.value;
 						break;
 				} 
+			}
+
+			//処理完了チェックボックスの色を変えるためだけの関数
+			function changeCheckBxColor(targetElm){//タグの背景色変更
+				//let targetElm=document.getElementById(targetElmId);
+				if(targetElm.checked == true){
+					targetElm.parentNode.style.backgroundColor = '#F0E68C';//背景色
+					targetElm.parentNode.style.color = '#333333';//文字色
+ 				}else{
+					targetElm.parentNode.style.backgroundColor = '#CC28A8';
+					targetElm.parentNode.style.color = '#FFFFFF';
+				}
 			}
         </script>
     </body>

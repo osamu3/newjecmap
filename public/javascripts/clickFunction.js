@@ -20,9 +20,9 @@ function listClick(elm) {
 	//map_pan(elm.id);//ファンクションに渡されたデータオブジェクトは、【e.data.sUid】で参照できる。
 	ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表すマーカー
 		map: MyMap,
-		icon: ArrowIcon
+		icon: ArrowIcon,
+		position: latLng
 	});
-	ArrowMarker.setPosition(latLng);
 	latLng2AddressFn(latLng);//緯度経度から住所を求め、画面(住所タグ)に表示
 	//一番近いkpを求め、その号線番号とKPを画面(KPタグ他)に表表示
 	setNearKp(LatLngLst[elm.id].latlng.lat, LatLngLst[elm.id].latlng.lng);//関数内で画面表示変更を行っていることに注意
@@ -38,9 +38,9 @@ function mapClick2PanEventFn(e) {
 	ArrowMarker.setMap(null);
 	ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表すマーカー
 		map: MyMap,
-		icon: ArrowIcon
+		icon: ArrowIcon,
+		position: latLng
 	});
-	ArrowMarker.setPosition(latLng);
 	//緯度経度から住所を求め、画面(住所タブ)に表示
 	latLng2AddressFn(latLng);
 	//一番近いkpを求め、その号線番号とKPをトップ画面に表示
@@ -147,9 +147,9 @@ function svpCameraRotaitionEventFn() {
 	ArrowMarker.setMap(null);
 	ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表すマーカー
 		map: MyMap,
-		icon: ArrowIcon
+		icon: ArrowIcon,
+		position: latLng
 	});
-	ArrowMarker.setPosition(latLng);//緯度経度をセット
 }
 
 //カメラ移動時
@@ -166,9 +166,9 @@ function svpCameraMoveEventFn() {
 	ArrowMarker.setMap(null);
 	ArrowMarker = new google.maps.Marker({//ストリートビューカメラの位置と方角を表すマーカー
 		map: MyMap,
-		icon: ArrowIcon
+		icon: ArrowIcon,
+		position: latLng
 	});
-	ArrowMarker.setPosition(latLng);//緯度経度をセット
 }
 
 //事象登録ボタンクリックで呼び出し
@@ -343,12 +343,17 @@ function eventListClick(elm) {
 				if (EventMarker != null) EventMarker.setMap(null);//いったん矢印マーカー削除
 				EventMarker = new google.maps.Marker({
 					map: MyMap,
-					icon: eventMarkerIcon
+					icon: eventMarkerIcon,
+					position: latLng,
+					animation: google.maps.Animation.BOUNCE //バウンドアイコン
 				});
-				EventMarker.setPosition(latLng);
 			}
 		}
+		$(EventEditWindow).on('unload', function () {//マーカーのバウンドを止める。
+			EventMarker.setAnimation(null);
+		});
 	});
+		
 }
 
 function dropDownMnClick(trget) {
