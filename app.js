@@ -27,7 +27,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', indexRouter);
 // GETリクエストでの"/"へのアクセス処理　/views/index.ejsを表示する。拡張子（.ejs）は省略されていることに注意。
 app.get("/", function (req, res, next) {
-	console.log('ルートへのGetリクエストあり。Address='+req.connection.remoteAddress);
+	
+	var nowDt = new Date();
+
+	//出力用
+	var nowDateTimeStr = nowDt.getFullYear() + "年" + nowDt.getMonth()+1 + "月" + nowDt.getDate() + "日" + nowDt.getHours() + "時" + nowDt.getMinutes()+ "分" + nowDt.getSeconds() + "秒"; 
+	console.log(nowDateTimeStr+':Getリクエストあり。Address='+req.connection.remoteAddress);
 	//console.log('req.ip=' + req.ip);
 	res.render("index", {});
 });

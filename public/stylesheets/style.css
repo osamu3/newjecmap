@@ -62,3 +62,10 @@ section{/*セクション*/
 	width:auto;
 	height:calc(100%/4);/*初期設定はボディー高さの１／４*/
 }
+
+.listScroll{ /* kpリストが枠からオーバーフローしたら自動スクロール*/
+	overflow:auto;
+	height:330px;
+	line-height:1.5;
+	padding:10px 0;
+}

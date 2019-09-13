@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-	<head>
-		<meta charset="utf-8">
-		<title>NJ-Map</title>
-		<link rel="stylesheet" href="/stylesheets/style.css" />
-		<link rel="stylesheet" href="/stylesheets/jquery-ui.min.css" />
-		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-	</head>
+<head>
+	<meta charset="utf-8">
+	<title>NJ-Map</title>
+	<link rel="stylesheet" href="/stylesheets/style.css" />
+	<link rel="stylesheet" href="/stylesheets/jquery-ui.min.css" />
+	<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
 
-	<body>
-		<aside>
-			<!-- サイドメニュー-->
-			<div>
-				<section>
-					<div>
+<body>
+	<aside>
+		<!-- サイドメニュー-->
+		<div>
+			<section>
+				<div style="font-size: small">
+					<!---
 						<table>
 							<tr>
 								<td id="currentLatTag">35.29749372923729</td>
@@ -25,177 +26,237 @@
 								<td><input type="button" value="緯度コピー" onclick="tagTextToClipboard('currentLng');" style="font-size: 10pt"/></td>
 							</tr>
 						</table>
-						<table style="font-size: 11pt" >
-							<tr>
-								<td width="47" bgcolor="#eeeeee">住所:</td>
-								<td id="city" width="100" bgcolor="#eeeeee"></td>
-								<td id="address" width="160" bgcolor="#eeeeee"></td>
-							</tr>
-						</table>
-						<table style="font-size: 11pt" >
-							<tr>
-								<td width="103" bgcolor="#eeeeee"></td>
-								<td width="40" bgcolor="#eeeeee">国道</td>
-								<td id="route" width="20" bgcolor="#eeeeee"></td>
-								<td width="25" bgcolor="#eeeeee">号</td>
-								<td id="kp" width="40" bgcolor="#eeeeee"></td>
-								<td width="20" bgcolor="#eeeeee">KP</td>
-								<td width="52" bgcolor="#eeeeee"></td>
-							</tr>
-						</table>
-					</div>
-					<div>
-						<span style="font-size: medium"><strong>特記事象登録</strong></span>
-						<input type="button" value="登録用フォームを開く" onclick="openEvntDtUploadForm();">
-					</div>
-					<div>
-						<span style="font-size: medium"><strong>統計データ読み込み</strong></span>
-						<input type="button" value="登録用フォームを開く" onclick="openEvntDtUploadForm();">
-					</div>
-					<div class="row">
-						<!-- Bootstrap4による画面サイズ設定　これ↓("col-sm-10")を定義しておかないと、「Ｒ９」の「Ｒ」が表示されない -->
-						<div class="col-sm-10">
-							<!-- Bootstrap4によるナビゲーション（カプセル）メニュー定義 cf:http://bootstrap3.cyberlab.info/components/navs.html -->
-							<!--- ドロップダウンメニューークリックでなぜか画面遷移しないため、dropDownMnClickイベント追加し強制的に遷移させる-->
-							<ul class="nav nav-pills">
-								<li class="active dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Ｒ９
-										<span class="caret"></span>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#menu9-1" data-toggle="tab" onclick="dropDownMnClick('#menu9-1');">京丹波</a></li>
-										<li><a href="#menu9-2" data-toggle="tab" onclick="dropDownMnClick('#menu9-1');">三和</a></li>
-										<li><a href="#menu9-3" data-toggle="tab" onclick="dropDownMnClick('#menu9-1');">福知山</a></li>
-										<li><a href="#menu9-4" data-toggle="tab" onclick="dropDownMnClick('#menu9-1');">夜久野</a></li>
-									</ul>
-								</li>
-								<li class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">&emsp;Ｒ27
-										<span class="caret"></span>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#menu27-1" data-toggle="tab" onclick="dropDownMnClick('#menu27-1');">舞鶴</a></li>
-										<li><a href="#menu27-2" data-toggle="tab" onclick="dropDownMnClick('#menu27-2');">綾部</a></li>
-										<li><a href="#menu27-3" data-toggle="tab" onclick="dropDownMnClick('#menu27-3');">京丹波</a></li>
-									</ul>
-								</li>
-								<li class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">&emsp;事象
-										<span class="caret"></span>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#menuEvnt-0" data-toggle="tab" onclick="dropDownMnClick('#menuEvnt-0');">全て表示</a></li>
-										<li><a href="#menuEvnt-1" data-toggle="tab" onclick="dropDownMnClick('#menuEvnt-1');">落下物</a></li>
-										<li><a href="#menuEvnt-2" data-toggle="tab" onclick="dropDownMnClick('#menuEvnt-2');">事故</a></li>
-										<li><a href="#menuEvnt-3" data-toggle="tab" onclick="dropDownMnClick('#menuEvnt-3');">災害</a></li>
-										<li><a href="#menuEvnt-4" data-toggle="tab" onclick="dropDownMnClick('#menuEvnt-4');">動物死骸</a></li>
-										<li><a href="#menuEvnt-5" data-toggle="tab" onclick="dropDownMnClick('#menuEvnt-5');">苦情</a></li>
-										<li><a href="#menuEvnt-6" data-toggle="tab" onclick="dropDownMnClick('#menuEvnt-6');">通報</a></li>
-										<li><a href="#menuEvnt-7" data-toggle="tab" onclick="dropDownMnClick('#menuEvnt-7');">その他</a></li>
-									</ul>
-								</li>
-							</ul>
-							<div class="tab-content">
-								<!--最初のタブは、"tab-pane fade in ✖✖"だが、"in"をとってもうまくいったので余計なものは削除した-->>
-								<div id="menu9-1" class="tab-pane fade active show">
-									<h3>R9:京丹波</h3>
-									<ul id="ulList9-1" style="width:200%"></ul>
-								</div>
-								<div id="menu9-2" class="tab-pane fade">
-									<h3> R9:三和</h3>
-									<ul id="ulList9-2" style="width:200%"></ul>
-								</div>
-								<div id="menu9-3" class="tab-pane fade">
-									<h3>R9:福知山</h3>
-									<ul id="ulList9-3" style="width:200%"></ul>
-								</div>
-								<div id="menu9-4" class="tab-pane fade">
-									<h3>R9:夜久野</h3>
-									<ul id="ulList9-4" style="width:200%"></ul>
-								</div>
-								<div id="menu27-1" class="tab-pane fade">
-									<h3>R27:舞鶴</h3>
-									<ul id="ulList27-1" style="width:200%"></ul>
-								</div>
-								<div id="menu27-2" class="tab-pane fade">
-									<h3>R27:綾部</h3>
-									<ul id="ulList27-2" style="width:200%"></ul>
-								</div>
-								<div id="menu27-3" class="tab-pane fade">
-									<h3>R27:京丹波</h3>
-									<ul id="ulList27-3" style="width:200%"></ul>
-								</div>
+						-->
+					<table>
+						<tr>
+							<td width="47" bgcolor="#eeeeee">住所:</td>
+							<td id="city" width="100" bgcolor="#eeeeee"></td>
+							<td id="address" width="152" bgcolor="#eeeeee"></td>
+						</tr>
+					</table>
+					<table>
+						<tr>
+							<td width="103" bgcolor="#eeeeee"></td>
+							<td width="40" bgcolor="#eeeeee">国道</td>
+							<td id="route" width="20" bgcolor="#eeeeee"></td>
+							<td width="25" bgcolor="#eeeeee">号</td>
+							<td id="kp" width="40" bgcolor="#eeeeee"></td>
+							<td width="20" bgcolor="#eeeeee">KP</td>
+							<td width="51" bgcolor="#eeeeee"></td>
+						</tr>
+					</table>
+				</div>
+				<div style="font-size: small">
+					<table>
+						<tr>
+							<td width="300" height="35" bgcolor="#eeee99">
+								<span><strong>特記事象登録</strong></span>
+								<input type="button" value="登録用フォームを開く" onclick="openEvntDtUploadForm();">
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div>
+					<table style="font-size: small">
+						<tr>
+							<td width="300" height="35" bgcolor="#eeeeee">
+								<span><strong>統計事象データの読み込み</strong></span>
+								<input type="file" id="inputFile" accept=".json">
+							</td>
+						</tr>
+						<tr>
+							<td width="150"  align="center"  bgcolor="#eeee99">
+								<label><input type="checkbox" checked="checked" onclick="">未処理</label>
+								<label><input type="checkbox" checked="checked" onclick="">完了</label>
+								<label>&nbsp;</label>
+								<label>年度選択</label>
+								<select name="year">
+									<option value="9999">全て</option>
+									<option value="2013">H25</option>
+									<option value="2014">H26</option>
+									<option value="2015">H27</option>
+									<option value="2016">H28</option>
+									<option value="2017">H29</option>
+									<option value="2018">H30</option>
+									<option value="2019">R元</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					<table style="font-size: small">
+						<tr>
+							<td width="300" height="20" bgcolor="#eeee99">
+								<label><input type="checkbox" checked="checked" onclick="">全て</label>
+								<label><input type="checkbox" checked="checked" onclick="">災害</label>
+								<label><input type="checkbox" checked="checked" onclick="">動物死骸</label>
+								<label><input type="checkbox" checked="checked" onclick="">落下物</label>
+								<label><input type="checkbox" checked="checked" onclick="">事故</label>
+								<label><input type="checkbox" checked="checked" onclick="">苦情</label>
+								<label><input type="checkbox" checked="checked" onclick="">通報</label>
+								<label><input type="checkbox" checked="checked" onclick="">その他</label>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="row">
+					<!-- Bootstrap4による画面サイズ設定　これ↓("col-sm-10")を定義しておかないと、「Ｒ９」の「Ｒ」が表示されない -->
+					<div class="col-sm-10">
+						<!-- Bootstrap4によるナビゲーション（カプセル）メニュー定義 cf:http://bootstrap3.cyberlab.info/components/navs.html -->
+						<!--- ドロップダウンメニューークリックでなぜか画面遷移しないため、dropDownMnClickイベント追加し強制的に遷移させる-->
+						<ul class="nav nav-pills">
+							<li class="active dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Ｒ９
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#menu9-1" data-toggle="tab"
+											onclick="dropDownMnClick('#menu9-1');">京丹波</a></li>
+									<li><a href="#menu9-2" data-toggle="tab"
+											onclick="dropDownMnClick('#menu9-1');">三和</a></li>
+									<li><a href="#menu9-3" data-toggle="tab"
+											onclick="dropDownMnClick('#menu9-1');">福知山</a></li>
+									<li><a href="#menu9-4" data-toggle="tab"
+											onclick="dropDownMnClick('#menu9-1');">夜久野</a></li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;Ｒ27
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#menu27-1" data-toggle="tab"
+											onclick="dropDownMnClick('#menu27-1');">舞鶴</a></li>
+									<li><a href="#menu27-2" data-toggle="tab"
+											onclick="dropDownMnClick('#menu27-2');">綾部</a></li>
+									<li><a href="#menu27-3" data-toggle="tab"
+											onclick="dropDownMnClick('#menu27-3');">京丹波</a></li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;事象
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#menuEvnt-0" data-toggle="tab"
+											onclick="dropDownMnClick('#menuEvnt-0');">全て表示</a></li>
+									<li><a href="#menuEvnt-1" data-toggle="tab"
+											onclick="dropDownMnClick('#menuEvnt-1');">落下物</a></li>
+									<li><a href="#menuEvnt-2" data-toggle="tab"
+											onclick="dropDownMnClick('#menuEvnt-2');">事故</a></li>
+									<li><a href="#menuEvnt-3" data-toggle="tab"
+											onclick="dropDownMnClick('#menuEvnt-3');">災害</a></li>
+									<li><a href="#menuEvnt-4" data-toggle="tab"
+											onclick="dropDownMnClick('#menuEvnt-4');">動物死骸</a></li>
+									<li><a href="#menuEvnt-5" data-toggle="tab"
+											onclick="dropDownMnClick('#menuEvnt-5');">苦情</a></li>
+									<li><a href="#menuEvnt-6" data-toggle="tab"
+											onclick="dropDownMnClick('#menuEvnt-6');">通報</a></li>
+									<li><a href="#menuEvnt-7" data-toggle="tab"
+											onclick="dropDownMnClick('#menuEvnt-7');">その他</a></li>
+								</ul>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<!--最初のタブは、"tab-pane fade in ✖✖"だが、"in"をとってもうまくいったので余計なものは削除した-->
+							<div id="menu9-1" class="tab-pane fade active show listScroll">
+								<h3>R9:京丹波</h3>
+								<ul id="ulList9-1" style="width:200%"></ul>
+							</div>
+							<div id="menu9-2" class="tab-pane fade">
+								<h3> R9:三和</h3>
+								<ul id="ulList9-2" style="width:200%"></ul>
+							</div>
+							<div id="menu9-3" class="tab-pane fade">
+								<h3>R9:福知山</h3>
+								<ul id="ulList9-3" style="width:200%"></ul>
+							</div>
+							<div id="menu9-4" class="tab-pane fade">
+								<h3>R9:夜久野</h3>
+								<ul id="ulList9-4" style="width:200%"></ul>
+							</div>
+							<div id="menu27-1" class="tab-pane fade">
+								<h3>R27:舞鶴</h3>
+								<ul id="ulList27-1" style="width:200%"></ul>
+							</div>
+							<div id="menu27-2" class="tab-pane fade">
+								<h3>R27:綾部</h3>
+								<ul id="ulList27-2" style="width:200%"></ul>
+							</div>
+							<div id="menu27-3" class="tab-pane fade">
+								<h3>R27:京丹波</h3>
+								<ul id="ulList27-3" style="width:200%"></ul>
+							</div>
 
-								<div id="menuEvnt-0" class="tab-pane fade">
-									<h3>事象：全て</h3>
-									<ul id="ulListEvnt-0" style="width:200%"></ul>
-								</div>
-								<div id="menuEvnt-1" class="tab-pane fade">
-									<h3>事象：落下物</h3>
-									<ul id="ulListEvnt-1" style="width:200%"></ul>
-								</div>
-								<div id="menuEvnt-2" class="tab-pane fade">
-									<h3>事象：事故</h3>
-									<ul id="ulListEvnt-2" style="width:200%"></ul>
-								</div>
-								<div id="menuEvnt-3" class="tab-pane fade">
-									<h3>事象：災害</h3>
-									<ul id="ulListEvnt-3" style="width:200%"></ul>
-								</div>
-								<div id="menuEvnt-4" class="tab-pane fade">
-									<h3>事象：動物死骸</h3>
-									<ul id="ulListEvnt-4" style="width:200%"></ul>
-								</div>
-								<div id="menuEvnt-5" class="tab-pane fade">
-									<h3>事象：苦情</h3>
-									<ul id="ulListEvnt-5" style="width:200%"></ul>
-								</div>
-								<div id="menuEvnt-6" class="tab-pane fade">
-									<h3>事象：通報</h3>
-									<ul id="ulListEvnt-6" style="width:200%"></ul>
-								</div>
-								<div id="menuEvnt-7" class="tab-pane fade">
-									<h3>事象：その他</h3>
-									<ul id="ulListEvnt-7" style="width:200%"></ul>
-								</div>
+							<div id="menuEvnt-0" class="tab-pane fade">
+								<h3>事象：全て</h3>
+								<ul id="ulListEvnt-0" style="width:200%"></ul>
+							</div>
+							<div id="menuEvnt-1" class="tab-pane fade">
+								<h3>事象：落下物</h3>
+								<ul id="ulListEvnt-1" style="width:200%"></ul>
+							</div>
+							<div id="menuEvnt-2" class="tab-pane fade">
+								<h3>事象：事故</h3>
+								<ul id="ulListEvnt-2" style="width:200%"></ul>
+							</div>
+							<div id="menuEvnt-3" class="tab-pane fade">
+								<h3>事象：災害</h3>
+								<ul id="ulListEvnt-3" style="width:200%"></ul>
+							</div>
+							<div id="menuEvnt-4" class="tab-pane fade">
+								<h3>事象：動物死骸</h3>
+								<ul id="ulListEvnt-4" style="width:200%"></ul>
+							</div>
+							<div id="menuEvnt-5" class="tab-pane fade">
+								<h3>事象：苦情</h3>
+								<ul id="ulListEvnt-5" style="width:200%"></ul>
+							</div>
+							<div id="menuEvnt-6" class="tab-pane fade">
+								<h3>事象：通報</h3>
+								<ul id="ulListEvnt-6" style="width:200%"></ul>
+							</div>
+							<div id="menuEvnt-7" class="tab-pane fade">
+								<h3>事象：その他</h3>
+								<ul id="ulListEvnt-7" style="width:200%"></ul>
 							</div>
 						</div>
 					</div>
-				</section>
-			</div>
-		</aside>
-		<article>
-			<!--地図エリア-->
-			<div id="mapCanvas" class="ui-widget-content">
-				<h3 class="ui-widget-header">地図表示エリア</h3>
-			</div>
-			<div id="strtVwCanvas" class="ui-widget-content">
-				<h3 class="ui-widget-header">グーグルビュー</h3>
-			</div>
-		</article>
+				</div>
+			</section>
+		</div>
+	</aside>
+	<article>
+		<!--地図エリア-->
+		<div id="mapCanvas" class="ui-widget-content">
+			<h3 class="ui-widget-header">地図表示エリア</h3>
+		</div>
+		<div id="strtVwCanvas" class="ui-widget-content">
+			<h3 class="ui-widget-header">グーグルビュー</h3>
+		</div>
+	</article>
 
-		<!-- 以下のスクリプトは、</body直前に置いた方がいいみたい？-->
-		<script src="/javascripts/js/jquery-3.4.1.min.js"></script>
-		<script src="/javascripts/js/jquery-ui.min.js"></script>
-		<script src="/javascripts/js/socket.io.js"></script>
+	<!-- 以下のスクリプトは、</body直前に置いた方がいいみたい？-->
+	<script src="/javascripts/js/jquery-3.4.1.min.js"></script>
+	<script src="/javascripts/js/jquery-ui.min.js"></script>
+	<script src="/javascripts/js/socket.io.js"></script>
 
-		<script type="text/javascript" src="/javascripts/js/bootstrap.bundle.min.js"></script>
-		<!--どのキーか分からん。グーグルコンソールで、大黒３＠gmail.com でログイン　ダッシュボードで確認
+	<script type="text/javascript" src="/javascripts/js/bootstrap.bundle.min.js"></script>
+	<!--どのキーか分からん。グーグルコンソールで、大黒３＠gmail.com でログイン　ダッシュボードで確認
 			リファラーはローカルホストにした。
 			https://console.cloud.google.com/home/dashboard?hl=ja&project=newjec-map　
 			 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAT1CHvQkiTKOdPbmJp2gOpqDIblMgzfI"></script> 
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMMhzZVxRmnlDJUDLLnIZsDVgmw3bj0g4"></script>
 -->
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNgVIwF9P1Ze0jkLo7OC-aT2ACCXBSFAY"></script>
-		<script src="/javascripts/initializeGlobalValues.js"></script>
-		<script src="/javascripts/initializeMap.js"></script>
-		<script src="/javascripts/initializeSocketIO.js"></script>
-		<script src="/javascripts/initializeResizableCanvas.js"></script>
-		<script src="/javascripts/myLatLngLst.js"></script>
-		<script src="/javascripts/R9Kp100mPich.js"></script>
-		<script src="/javascripts/R27Kp100mPich.js"></script>
-		<script src="/javascripts/initializeKPListItem.js"></script>
-		<script src="/javascripts/clickFunction.js"></script>
-	</body>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNgVIwF9P1Ze0jkLo7OC-aT2ACCXBSFAY"></script>
+	<script src="/javascripts/initializeGlobalValues.js"></script>
+	<script src="/javascripts/initializeMap.js"></script>
+	<script src="/javascripts/initializeSocketIO.js"></script>
+	<script src="/javascripts/initializeResizableCanvas.js"></script>
+	<script src="/javascripts/myLatLngLst.js"></script>
+	<script src="/javascripts/R9Kp100mPich.js"></script>
+	<script src="/javascripts/R27Kp100mPich.js"></script>
+	<script src="/javascripts/initializeKPListItem.js"></script>
+	<script src="/javascripts/clickFunction.js"></script>
+</body>
 
 </html>

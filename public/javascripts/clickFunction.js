@@ -155,8 +155,8 @@ function svpCameraRotaitionEventFn() {
 //カメラ移動時
 function svpCameraMoveEventFn() {
 	//緯度経度を表示
-	$("#currentLatTag")[0].innerText = Svp.getLocation().latLng.lat();//現在位置を表示
-	$("#currentLngTag")[0].innerText = Svp.getLocation().latLng.lng();
+	//$("#currentLatTag")[0].innerText = Svp.getLocation().latLng.lat();//現在位置を表示
+	//$("#currentLngTag")[0].innerText = Svp.getLocation().latLng.lng();
 	let latLng = new google.maps.LatLng(Svp.getLocation().latLng.lat(), Svp.getLocation().latLng.lng());
 	//住所を表示
 	latLng2AddressFn(latLng);
@@ -173,8 +173,8 @@ function svpCameraMoveEventFn() {
 
 //事象登録ボタンクリックで呼び出し
 function openEvntDtUploadForm() {
-	var queryStr = '?' + $('#currentLatTag')[0].innerText + '&' +
-		$('#currentLngTag')[0].innerText + '&' + $('#city')[0].innerText + '&' + $('#address')[0].innerText +'&' +
+	var queryStr = '?' + ArrowMarker.position.lat() + '&' +
+	ArrowMarker.position.lng()+ '&' + $('#city')[0].innerText + '&' + $('#address')[0].innerText +'&' +
 		$('#route')[0].innerText + '&' + $('#kp')[0].innerText;
 	//アップロード用の子フォームを表示、ここで子フォームの幅や高さ、ツールバーの表示などを指定していることに注意
 	UpLoadWin = window.open('/evntDtUploadForm' + queryStr, 'evntDtUploadForm', 'width=600, height=580, status=no, resizable=yes, scrollbars=yes, toolbar=no, menubar=no');
@@ -369,12 +369,12 @@ function eventListClick(elm) {
 function dropDownMnClick(trget) {
 	//bootstrapのフェード・エフェクトタブを使っての画面遷移がうまくいかなかったため、強制的に "active show"する。
 	$('.tab-content').children('div').each(function () {//子要素を走査
-		if ($(this).hasClass('tab-pane fade active show')) {//表示注のメニューがあれば消す
-			$(this).removeClass('tab-pane fade active show').addClass('tab-pane fade');
+		if ($(this).hasClass('tab-pane fade active show listScroll')) {//表示注のメニューがあれば消す
+			$(this).removeClass('tab-pane fade active show listScroll').addClass('tab-pane fade');
 		}
 	})
 	//クリックされたメニューを表示する
-	$(trget).removeClass('tab-pane fade').addClass('tab-pane fade active show');
+	$(trget).removeClass('tab-pane fade').addClass('tab-pane fade active show listScroll');
 }
 
 //新規事象登録時、親画面をリロードすることなく、新規登録事象がリストに追加され、且つ、アイコンを地図上に表示したい。
