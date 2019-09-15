@@ -11,7 +11,11 @@
 
 <body>
 	<aside>
-		<!-- サイドメニュー-->
+			<input type="button" value="緯度経度確認" onclick="tmpGetkp2LatLng();" style="font-size: 10pt"/>
+			<input type="text" id="tmpKp" size="35">
+			kp<input type="text" id="tmpkp2LatLng" size="38"/>
+			100mPich<input type="text" id="tmp100mPichLatLng" size="38"/>
+			<!-- サイドメニュー-->
 		<div>
 			<section>
 				<div style="font-size: small">
@@ -61,7 +65,7 @@
 						<tr>
 							<td width="300" height="35" bgcolor="#eeeeee">
 								<span><strong>統計事象データの読み込み</strong></span>
-								<input type="file" id="inputFile" accept=".json">
+									<input id="eventDtFile" type="file"  accept=".json"/>
 							</td>
 						</tr>
 						<tr>
@@ -249,6 +253,7 @@
 -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNgVIwF9P1Ze0jkLo7OC-aT2ACCXBSFAY"></script>
 	<script src="/javascripts/initializeGlobalValues.js"></script>
+	<script src="/javascripts/jsFunction.js"></script>	
 	<script src="/javascripts/initializeMap.js"></script>
 	<script src="/javascripts/initializeSocketIO.js"></script>
 	<script src="/javascripts/initializeResizableCanvas.js"></script>
@@ -257,6 +262,8 @@
 	<script src="/javascripts/R27Kp100mPich.js"></script>
 	<script src="/javascripts/initializeKPListItem.js"></script>
 	<script src="/javascripts/clickFunction.js"></script>
+	<script src="/javascripts/eventDtOnLoad.js"></script>
+	<script src="/javascripts/tmp.js"></script>
 </body>
 
 </html>

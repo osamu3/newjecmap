@@ -454,7 +454,7 @@
 				}
                 //ボタンのタイトルが事象登録【実行】でなければ
                 if ($(form1)[0].submitButton.value == "事象【登録】") {
-					window.opener.callChildWinFn('ReLoadAllEventData');//呼び出す関数はclickFunction.js の最後の方に書いてある。
+					window.opener.calledChildWinFn('ReLoadAllEventData');//呼び出す関数はJsFunction.jsに書いてある。
 					return true;//呼び出し側へ戻ってから処理を続行(post実行)
 				}else{
                     alert("Now programming");
