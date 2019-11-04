@@ -20,7 +20,12 @@ function tmpGetkp2LatLng() {
 
 	floatNmKp = Math.round(floatNmKp * 10) / 10 // 小数点1桁で四捨五入   ex)123.45→123.5
 	$('#tmp100mPichLatLng').val( 'lat='+R9Kp100mPich[floatNmKp.toFixed(1)].lat+' lng='+R9Kp100mPich[floatNmKp.toFixed(1)].lng);//「toFixed」は、70.15 → 70.1  , 70 →70.0にする（小数点第１位まで０(ゼロ)でも表示）
-	}  
+
+
+	var marker = new google.maps.Marker(new google.maps.LatLng(35.26145,135.1911));
+		var map = new google.maps.Map2(document.getElementById("mapCanvas"));
+		map.addOverlay(marker);
+}  
   /*
   //一番近いkpを求め、その号線番号とKPをトップ画面に表示
   function setNearKp(lat, lng) {

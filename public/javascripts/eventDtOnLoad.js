@@ -1,5 +1,6 @@
-$(window).on('load',() =>{
-	const eventDtFile = $('#eventDtFile')[0]	;
+//事象ファイルを読み込み、事象種別毎、100mPich毎に集約して地図上に表示する
+$(window).on('load', () => {
+	const eventDtFile = $('#eventDtFile')[0]	;//ファイルインプットタグ
 	//  FileReaderオブジェクトを生成
 	const fileReader = new FileReader();
   
@@ -10,110 +11,72 @@ $(window).on('load',() =>{
   
 	// ファイルの読み込みが終わったら内容を表示
 	fileReader.onload = function (e) {
-		var jsonArr = JSON.parse(e.target.result);
-		//paneを利用したイベントマーカーのZIndex設定
-		//https://qiita.com/kkdd/items/a406cbde0d343d2061aa
-		//http://nobmob.blogspot.com/2018/06/leaflet-13-4-10-working-with-map-panes.html
-
-		let groupByKpArr = {
-			"9": {},
-			"27": {}
-		};
-
-		//キロポスト毎に集計
-		for (let item in jsonArr) {
-			let route = jsonArr[item]["号線"];
-			let kp = jsonArr[item]["KP"];
-			let evnt = jsonArr[item]["事象"];
-			let target = jsonArr[item]["対象"];
-
-			//事象とkpでインクリメント
-			//↓テクニック！　cf: http://nakawake.net/?p=831 //配列アイテムをセットしてからでないと count++できない(プロパティーが見つかりませんエラー)
-			if (kp in groupByKpArr[route]) {//この連想配列(号線)に既に同じkpがあれば
-				if (evnt in groupByKpArr[route][kp]) {//この連想配列にevntがあれば(死骸処理、落下物...)
-					if (target in groupByKpArr[route][kp][evnt]) {//この連想配列にtargetがあれば(シカ、イノシシ、...)
-						groupByKpArr[route][kp][evnt][target].count++
-					} else {//targetがなければ
-						groupByKpArr[route][kp][evnt][target] = { count: 0 }
-					}
-				} else {//evntがなければ
-					groupByKpArr[route][kp][evnt] = { [target]: { count: 0 } }
-				}
-			} else {	//kpがなければ
-				groupByKpArr[route][kp] = { [evnt]: { [target]: { count: 0 } } }
-			}
+		//JSonかどうかの判定
+		if (!isJSon(e.target.result)) {//ファイルがJSonファイルでなければ、
+			return ;
 		}
 
+		var jsonArr = JSON.parse(e.target.result);
+		var groupByKpArr = aggregteKp(jsonArr);	//キロポスト毎にaggregte(集計)
+
+//		groupByKpArr[9]['46.8']['死骸処理']['イノシシ'].count =0;
+//		groupByKpArr[9]['71.0']['死骸処理']['イノシシ'].count =2;
+//		groupByKpArr[9]['71.0']['死骸処理']['シカ'].count =2;
+//		groupByKpArr[9]['71.0']['落下物']['ゴミ'].count =0;
+//		groupByKpArr[9]['71.0']['通報']['苦情'].count =0;
+
+//		Object.keys(groupByKpArr[9]["71.0"]).length=3 ('死骸処理'、'落下物'、'通報')
+//		Object.keys(groupByKpArr[9]["71.0"]['死骸処理']).length=2 ('シカ、'イノシシ')
+
+
+		//var groupByKpEvntArr = aggregteKpEvnt(groupByKpArr);	//キロポスト毎にaggregte(集計)
+
+		let eventKpArr =  new Array();//事象毎の集計後の同じkpの毎の件数を保存
+
+		
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////                                                                                           ///////
 ///// MakerWithLabel で、かっこいいラベルを作ろう！  /////// 
 /////    cf:https://maps.multisoup.co.jp/blog/2579/                   ///////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-		
-
 
 		//集計後のカウンター値に基づき、マーカーアイコンの数をセット
 		//先ず、マーカー配列の全ての要素を削除
 		deleteAllMakers(EventMarkerArr);
 		let eventMarkerIcon;
-		$.each(groupByKpArr[9], function (key, item) {
-			//console.log(key + ": " + value);
-			//let markerIcon, iconFileNm;
-			switch (Object.keys(item)[0]) {
-				case "動物死骸":
-					switch (Object.keys(item[Object.keys(item)[0]])[0]) {
-						case "イノシシ":
-							eventMarkerIcon = {
-								//『item["死骸処理"]["イノシシ"].count』の形式、countは、０(ゼロ)スタート 
-								//Object.keys(item)[0] =>死骸処理、item[Object.keys(item)[0]][Object.keys(item[Object.keys(item)[0]])[0]=>イノシシ
-								url: "images/shika" + String(item[Object.keys(item)[0]][Object.keys(item[Object.keys(item)[0]])[0]].count + 1) + ".png",
-								scaledSize: new google.maps.Size(35, 35),
-								//原点
-								origin: new google.maps.Point(0, 0),//画像描画位置（0,0=>左下)
-								//マーカ位置と画像の接する点
-								anchor: new google.maps.Point(0, 35)
-							}
+		let eventType;
+		let animalType;
+		let offsetCount;//あるKPに置ける事象の数分オフセットする
+		//groupByKpArr{9:{71.0:{ 死骸処理:{シカ:{},イノシシ{}} }}}
+			eventKpArr[999] = 1; //ダミーデータをセット//nullだと↓のif (key in eventKpArr)でエラーが出る。
+		$.each(groupByKpArr[9], function (kp, item) {//９号グループでループ、key=KP, item=事象内容
+			offsetCount = 0;
+			//同じKpに異なる事象グループがないか調べてオフセットをセットする。
+			//let ofsetXY = 5 * eventKpArr[key]//同じKpに異なる事象が重なった場合のオフセットは5ドット×事象数
+			$.each(item,function(eventType,subItem){//現在のキロポストの事象要素でループ(71.0kpだと死骸処理、落下物、通報)
+				$.each(subItem,function(target,sub2Item){//現在の事象でループ(死骸処理だと、シカ、イノシシ)⇐ここから
+					console.log('KP：'+kp+'　オフセットカウント：'+offsetCount+'　事象名：'+eventType+'　対象：'+target+' '+sub2Item.count+'件');
+					//eventType = Object.keys(item)[0];//死骸処理、通報。。。
+					switch (eventType) {
+						case "死骸処理":
+							//animalType = Object.keys(item["死骸処理"])[0];
+							eventMarkerIcon = createAnimalMarkerIcon(item, eventType, target,offsetCount); //動物アイコンセット
 							break;
-						case "シカ":
-							eventMarkerIcon = {
-								url: "images/shika" + String(item[Object.keys(item)[0]][Object.keys(item[Object.keys(item)[0]])[0]].count + 1) + ".png",
-								scaledSize: new google.maps.Size(35, 35),
-								//原点
-								origin: new google.maps.Point(0, 0),
-								//マーカ位置と画像の接する点
-								anchor: new google.maps.Point(0,35)
-							}
-							break;
-						default://othersは、全てothers1.png
-							eventMarkerIcon = {
-								url: "images/others1.png",
-								scaledSize: new google.maps.Size(35, 35),
-								//原点
-								origin: new google.maps.Point(0, 0),
-								//マーカ位置と画像の接する点
-								anchor: new google.maps.Point(0,35)
+						default:
+							eventMarkerIcon = createDefaultMarkerIcon(item, eventType, target,offsetCount); //othersは、全てothers1.png
 					}
-					}
-					break;
-				default://othersは、全てothers1.png
-					eventMarkerIcon = {
-						url: "images/request9.png",
-						scaledSize: new google.maps.Size(35, 35),
-						origin: new google.maps.Point(0,0),
-						anchor: new google.maps.Point(0,35)
-					}
-			}
-			
-			let latLngObj = getkp2LatLng(9, key);
-			let latLng = new google.maps.LatLng(latLngObj.lat, latLngObj.lng);
-//			let eventMarkerIcon = getEventMarkerIcon();
-
-			EventMarkerArr.push(new google.maps.Marker({
-				map: MyMap,
-				icon: eventMarkerIcon,
-				position: latLng,
-				title: key+"latLng("+latLng.lat()+":"+latLng.lng()+")"　
-			}));
+					let latLngObj = getkp2LatLng(9, kp);//キロポストから緯度経度取得
+					let latLng = new google.maps.LatLng(latLngObj.lat, latLngObj.lng);
+					EventMarkerArr.push(new google.maps.Marker({
+						map: MyMap,
+						icon: eventMarkerIcon,
+						position: latLng,
+						zIndex: 999-offsetCount,//重ねて表示させるため、後のマーカーほど下になるようにする。
+						title: 	kp+"kp"+" 事象名:" + eventType+ " 対象:" + target
+					}));
+					++offsetCount; 
+				});
+			});
 		});
 	};
  });

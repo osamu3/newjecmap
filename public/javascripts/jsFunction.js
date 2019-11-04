@@ -203,3 +203,4 @@ function getEventMarkerIcon(target) {
 			return null;
 	}
 }
+
